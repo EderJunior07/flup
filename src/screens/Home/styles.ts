@@ -4,3 +4,8 @@ export const Container = styled.View`
   flex: 1;
   background-color: ${({ theme }) => theme.COLORS.BACKGROUND};
 `;
+
+export const MapContainer = styled.View`
+  flex: 1;
+  background-color: ${({ theme }) => theme.COLORS.BACKGROUND};
+`;
