@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "907126516221",
+    "project_id": "flup-d4990",
+    "storage_bucket": "flup-d4990.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907126516221:android:fd7a494e4465237833d194",
+        "android_client_info": {
+          "package_name": "com.flup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "907126516221-4qlpjsf9lcg7ch9e8023k9vsbqjqonkk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1AwcjVs3ovJb-Kbszli6GIumBag_Gn4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "907126516221-4qlpjsf9lcg7ch9e8023k9vsbqjqonkk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
