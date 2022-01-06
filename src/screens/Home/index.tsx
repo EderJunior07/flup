@@ -2,7 +2,7 @@ import { useAuth } from '../../hooks/auth';
 import React, { useEffect, useState } from 'react';
 import { Container, MapContainer } from './styles';
 import { RectButton } from 'react-native-gesture-handler';
-import { Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 
 import { Modalize } from 'react-native-modalize';
 import { useTheme } from 'styled-components';
@@ -42,7 +42,14 @@ const Home = () => {
   return (
     <>
       <Container>
-        <MapView style={{ flex: 1 }} initialRegion={origin} showsUserLocation>
+        <MapView
+          style={{ flex: 1 }}
+          initialRegion={origin}
+          showsUserLocation
+          showsCompass
+          maxZoomLevel={200}
+          minZoomLevel={-50}
+        >
           <Marker
             coordinate={{
               latitude: -23.497564320298803,
@@ -51,18 +58,19 @@ const Home = () => {
           >
             <View
               style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 90,
-                height: 42,
-                backgroundColor: '#fff',
-                elevation: 20,
-                borderRadius: 32,
-                borderWidth: 1,
-                borderColor: '#dadada'
+                width: 96,
+                height: 96,
+                borderRadius: 65,
+                overflow: 'hidden',
+                backgroundColor: 'white',
               }}
             >
-              <Text>Spot</Text>
+              <Image
+                style={{flex: 1, resizeMode: 'cover' }}
+                source={{
+                  uri: 'https://lh5.googleusercontent.com/p/AF1QipOJa-bwqWYbSzivcBL-a4yh4h7c-azaEJk60lFK=w408-h306-k-no',
+                }}
+              />
             </View>
           </Marker>
         </MapView>
@@ -70,8 +78,7 @@ const Home = () => {
         <Modalize
           ref={() => modal}
           modalStyle={{ marginHorizontal: 8, borderRadius: 0 }}
-          alwaysOpen={300}
-          velocity={2}
+          alwaysOpen={100}
           handlePosition="outside"
           handleStyle={{
             backgroundColor: COLORS.PRIMARY_BUTTON,
