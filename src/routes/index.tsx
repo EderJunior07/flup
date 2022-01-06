@@ -11,7 +11,7 @@ const Routes = () => {
   const navigationRef = useRef<any>();
   const routeNameRef = useRef();
 
-  const { id } = user;
+
 
   return (
     <>
@@ -22,7 +22,7 @@ const Routes = () => {
           (routeNameRef.current = navigationRef.current.getCurrentRoute().name)
         }
       >
-        {!id ? <RoutesAuth /> : <AppRoutes/>}
+        {!user?.id ? <RoutesAuth /> : <AppRoutes/>}
       </NavigationContainer>
     </>
   );

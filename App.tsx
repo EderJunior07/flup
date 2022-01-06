@@ -14,6 +14,7 @@ import {store, persistor} from './src/store';
 import Routes from './src/routes';
 import { AuthContext, AuthProvider, useAuth } from './src/hooks/auth';
 import theme from './src/theme';
+import { StatusBar } from 'react-native';
 
 const App = () => {
   const [fontsLoaded] = useFonts({
@@ -29,6 +30,7 @@ const App = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
+        <StatusBar backgroundColor="#000"/>
         <Provider store={store}>
         <AuthProvider>
           <Routes />

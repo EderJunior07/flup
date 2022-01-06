@@ -28,6 +28,7 @@ export default {
   },
 
   FONTS: {
+    BOLD_TEXT: 'DMSans_Bold',
     MEDIUM_TEXT: 'DMSans_Medium',
     TEXT: 'DMSans_Regular',
   },

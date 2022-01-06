@@ -4,6 +4,7 @@ import Explore from '@screens/Explore';
 import TabComponent from '../components/bottomConfig/Tab';
 import HomeStack from './stackHome/home.routes';
 import PerfilStack from './stackPerfil/perfil.routes';
+import Shop from '../screens/Shop';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,26 +18,33 @@ const BottomNav = () => {
         {
           headerShown: false,
           tabBarStyle: {
-            backgroundColor: '#0E0E0E',
+            backgroundColor: '#FFF',
             height: 72,
-            borderTopColor: '#131313',
+            borderTopColor: '#DDD',
             elevation: 15
           }
         }
       }
       > 
         <Tab.Screen
-          name="Projetos"
+          name="Role"
           component={HomeStack}
           options={{
-            tabBarButton: (props) => <TabComponent label="Projetos" {...props} />,
+            tabBarButton: (props) => <TabComponent label="Rolê" {...props} />,
           }}
         />
         <Tab.Screen
           name="Explore"
           component={Explore}
           options={{
-            tabBarButton: (props) => <TabComponent label="Discover" {...props} />,
+            tabBarButton: (props) => <TabComponent label="Explorar" {...props} />,
+          }}
+        />
+         <Tab.Screen
+          name="Shop"
+          component={Shop}
+          options={{
+            tabBarButton: (props) => <TabComponent label="Comprar" {...props} />,
           }}
         />
         <Tab.Screen

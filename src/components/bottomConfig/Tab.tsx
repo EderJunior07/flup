@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import styled from 'styled-components/native';
 import { Transition, Transitioning } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { Image, Text } from 'react-native';
 import { useAuth } from '../../hooks/auth';
 import { useSelector } from 'react-redux';
@@ -70,22 +71,35 @@ function Tab({ label, accessibilityState, onPress }: any) {
                 : `https://ui-avatars.com/api/?size=128&length=1&background=FF2424&color=FFF&name=${name}`,
             }}
           />
-        ) : label === 'Discover' ? (
+        ) : label === 'Explorar' ? (
+          // <Image
+          //   style={{ width: 24, height: 24 }}
+          //   source={require('../../assets/images/logo.png')}
+          // />
+          <MaterialIcons
+            name={'local-fire-department'}
+            size={28}
+            color="#000"
+          />
+        ) : label === 'Comprar' ? (
           <Image
-            style={{ width: 24, height: 24 }}
-            source={require('../../assets/images/logo.png')}
+            style={{ width: 28, height: 28 }}
+            source={require('../../assets/images/shopping_bag.png')}
           />
         ) : (
-          <Ionicons name={'grid-outline'} size={20} color="#FFF" />
+          <Image
+            style={{ width: 24, height: 24, resizeMode: 'cover' }}
+            source={require('../../assets/images/role.png')}
+          />
         )}
         {focused && (
           <Text
             style={{
-              color: '#FFFFFF',
+              color: '#000',
               fontWeight: '600',
               marginLeft: 12,
               marginTop: 4,
-              fontFamily: 'DMSans_Bold',
+              fontFamily: 'DMSans_Medium',
             }}
           >
             {label.charAt(0).toUpperCase() + label.slice(1)}

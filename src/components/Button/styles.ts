@@ -24,12 +24,12 @@ export const Container = styled(TouchableOpacity)<ContainerProps>`
 
 export const Title = styled.Text`
   font-size: 14px;
-
+  text-transform: uppercase;
   
 
   ${({ theme}) => css`
     color: ${({ theme, type}) => type === 'primary' ? theme.COLORS.SECONDARY_BUTTON : theme.COLORS.PRIMARY_BUTTON};
-    font-family: ${theme.FONTS.TEXT};
+    font-family: ${theme.FONTS.BOLD_TEXT};
   `}
 `;
 

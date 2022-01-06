@@ -1,5 +1,17 @@
 import { IUser } from './types/user';
-import firestore from '@react-native-firebase/firestore'
+import firestore from '@react-native-firebase/firestore';
+import { initializeApp} from 'firebase/app';
+
+// Initialize Firebase
+initializeApp({
+  apiKey: 'AIzaSyDqbiQOK8RPLmYfWogfPfiDhGZTIk-4q1c',
+  authDomain: 'flup-d4990.firebaseapp.com',
+  projectId: 'flup-d4990',
+  storageBucket: 'flup-d4990.appspot.com',
+  messagingSenderId: '907126516221',
+  appId: '1:907126516221:web:7ccbc8a1895bbfeb33d194',
+  measurementId: 'G-7K21S5V2EY',
+});
 
 export interface ICreateUser {
   userId: string;
