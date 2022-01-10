@@ -1,188 +1,226 @@
-import { useAuth } from '../../hooks/auth';
 import React, { useEffect, useState } from 'react';
-import { Container, MapContainer } from './styles';
-import { RectButton } from 'react-native-gesture-handler';
-import { Image, Text, View} from 'react-native';
+import { Container } from './styles';
+import { Alert, Modal } from 'react-native';
 
 import { Modalize } from 'react-native-modalize';
 import { useTheme } from 'styled-components';
 import MapView, { Marker } from 'react-native-maps';
-import * as Location from 'expo-location';
-import * as Permissions from 'expo-permissions';
-
+  import * as Location from 'expo-location';
+  import firestore from '@react-native-firebase/firestore';
+import Content from '../../components/home/content';
+import MapContentMarker from '../../components/MapMarker';
+import ModalSpotDetails from '../../components/home/content/modalSpotDetails';
+import { useDispatch } from 'react-redux';
 
 const customMap = [
   {
-    "elementType": "geometry",
-    "stylers": [
+    elementType: 'geometry',
+    stylers: [
       {
-        "color": "#f5f5f5"
-      }
-    ]
+        color: '#f5f5f5',
+      },
+    ],
   },
   {
-    "elementType": "labels.icon",
-    "stylers": [
+    elementType: 'labels.icon',
+    stylers: [
       {
-        "visibility": "off"
-      }
-    ]
+        visibility: 'off',
+      },
+    ],
   },
   {
-    "elementType": "labels.text.fill",
-    "stylers": [
+    elementType: 'labels.text.fill',
+    stylers: [
       {
-        "color": "#616161"
-      }
-    ]
+        color: '#616161',
+      },
+    ],
   },
   {
-    "elementType": "labels.text.stroke",
-    "stylers": [
+    elementType: 'labels.text.stroke',
+    stylers: [
       {
-        "color": "#f5f5f5"
-      }
-    ]
+        color: '#f5f5f5',
+      },
+    ],
   },
   {
-    "featureType": "administrative.land_parcel",
-    "elementType": "labels.text.fill",
-    "stylers": [
+    featureType: 'administrative.land_parcel',
+    elementType: 'labels.text.fill',
+    stylers: [
       {
-        "color": "#bdbdbd"
-      }
-    ]
+        color: '#bdbdbd',
+      },
+    ],
   },
   {
-    "featureType": "poi",
-    "elementType": "geometry",
-    "stylers": [
+    featureType: 'poi',
+    elementType: 'geometry',
+    stylers: [
       {
-        "color": "#eeeeee"
-      }
-    ]
+        color: '#eeeeee',
+      },
+    ],
   },
   {
-    "featureType": "poi",
-    "elementType": "labels.text.fill",
-    "stylers": [
+    featureType: 'poi',
+    elementType: 'labels.text.fill',
+    stylers: [
       {
-        "color": "#757575"
-      }
-    ]
+        color: '#757575',
+      },
+    ],
   },
   {
-    "featureType": "poi.park",
-    "elementType": "geometry",
-    "stylers": [
+    featureType: 'poi.park',
+    elementType: 'geometry',
+    stylers: [
       {
-        "color": "#e5e5e5"
-      }
-    ]
+        color: '#e5e5e5',
+      },
+    ],
   },
   {
-    "featureType": "poi.park",
-    "elementType": "labels.text.fill",
-    "stylers": [
+    featureType: 'poi.park',
+    elementType: 'labels.text.fill',
+    stylers: [
       {
-        "color": "#9e9e9e"
-      }
-    ]
+        color: '#9e9e9e',
+      },
+    ],
   },
   {
-    "featureType": "road",
-    "elementType": "geometry",
-    "stylers": [
+    featureType: 'road',
+    elementType: 'geometry',
+    stylers: [
       {
-        "color": "#ffffff"
-      }
-    ]
+        color: '#ffffff',
+      },
+    ],
   },
   {
-    "featureType": "road.arterial",
-    "elementType": "labels.text.fill",
-    "stylers": [
+    featureType: 'road.arterial',
+    elementType: 'labels.text.fill',
+    stylers: [
       {
-        "color": "#757575"
-      }
-    ]
+        color: '#757575',
+      },
+    ],
   },
   {
-    "featureType": "road.highway",
-    "elementType": "geometry",
-    "stylers": [
+    featureType: 'road.highway',
+    elementType: 'geometry',
+    stylers: [
       {
-        "color": "#dadada"
-      }
-    ]
+        color: '#dadada',
+      },
+    ],
   },
   {
-    "featureType": "road.highway",
-    "elementType": "labels.text.fill",
-    "stylers": [
+    featureType: 'road.highway',
+    elementType: 'labels.text.fill',
+    stylers: [
       {
-        "color": "#616161"
-      }
-    ]
+        color: '#616161',
+      },
+    ],
   },
   {
-    "featureType": "road.local",
-    "elementType": "labels.text.fill",
-    "stylers": [
+    featureType: 'road.local',
+    elementType: 'labels.text.fill',
+    stylers: [
       {
-        "color": "#9e9e9e"
-      }
-    ]
+        color: '#9e9e9e',
+      },
+    ],
   },
   {
-    "featureType": "transit.line",
-    "elementType": "geometry",
-    "stylers": [
+    featureType: 'transit.line',
+    elementType: 'geometry',
+    stylers: [
       {
-        "color": "#e5e5e5"
-      }
-    ]
+        color: '#e5e5e5',
+      },
+    ],
   },
   {
-    "featureType": "transit.station",
-    "elementType": "geometry",
-    "stylers": [
+    featureType: 'transit.station',
+    elementType: 'geometry',
+    stylers: [
       {
-        "color": "#eeeeee"
-      }
-    ]
+        color: '#eeeeee',
+      },
+    ],
   },
   {
-    "featureType": "water",
-    "elementType": "geometry",
-    "stylers": [
+    featureType: 'water',
+    elementType: 'geometry',
+    stylers: [
       {
-        "color": "#c9c9c9"
-      }
-    ]
+        color: '#c9c9c9',
+      },
+    ],
   },
   {
-    "featureType": "water",
-    "elementType": "labels.text.fill",
-    "stylers": [
+    featureType: 'water',
+    elementType: 'labels.text.fill',
+    stylers: [
       {
-        "color": "#9e9e9e"
-      }
-    ]
-  }
-]
+        color: '#9e9e9e',
+      },
+    ],
+  },
+];
+
+type IGeopoint = {
+  _latitude: number;
+  _longitude: number;
+};
+
+export type ISpotDetailsPage = {
+  id: string;
+  name: string;
+  description: string;
+  location: IGeopoint;
+  spotPhotos: string[];
+};
 
 const Home = () => {
+  const dispatch = useDispatch();
   const modal = React.createRef();
+  const [modalVisible, setModalVisible] = useState<any>(false);
+  const [selectedSpot, setSelectedSpot] = useState<string>('');
   const { COLORS } = useTheme();
   const [origin, setOrigin] = useState<any>();
+  const [spots, setSpots] = useState<ISpotDetailsPage[]>([]);
 
-  const renderContent = () => (
-    <View style={{ flex: 1, backgroundColor: COLORS.BACKGROUND }}>
-      <Text>{'Introduction'.toUpperCase()}</Text>
-      <Text>Always open modal!</Text>
-    </View>
-  );
+  function fetchSpots(value: string) {
+    const formattedValue = value.toLocaleLowerCase().trim();
+    firestore()
+      .collection('SPOTS')
+      .orderBy('name_insensitive')
+      .startAt(formattedValue)
+      .endAt(`${formattedValue}\uf8ff`)
+      .get()
+      .then((response) => {
+        const data = response.docs.map((doc, index) => {
+          return {
+            id: doc.id,
+            ...doc.data(),
+          };
+        }) as ISpotDetailsPage[];
+        dispatch(setSpots(data));
+        setSpots(data);
+      })
+      .catch(() =>
+        Alert.alert('Consulta', 'Não foi possível realizar a consulta.')
+      );
+  }
+
+  useEffect(() => {
+    fetchSpots('');
+  }, []);
 
   useEffect(() => {
     (async function () {
@@ -201,56 +239,71 @@ const Home = () => {
     })();
   }, []);
 
+  function handleModalOpenSpotDetails(id: string) {
+    setModalVisible(true);
+    setSelectedSpot(id);
+  }
+
   return (
     <>
       <Container>
         <MapView
           style={{ flex: 1 }}
           initialRegion={origin}
+          showsBuildings
+          showsMyLocationButton
           showsUserLocation
           showsCompass
-          maxZoomLevel={200}
-          minZoomLevel={-50}
-          liteMode={false}
-          mapType='standard'
+          minZoomLevel={12}
+          mapType="standard"
           customMapStyle={customMap}
         >
-          <Marker
-            coordinate={{
-              latitude: -23.497564320298803,
-              longitude: -46.874742510170286,
-            }}
-          >
-            <View
-              style={{
-                width: 96,
-                height: 96,
-                borderRadius: 65,
-                overflow: 'hidden',
-                backgroundColor: 'white',
-              }}
-            >
-              <Image
-                style={{flex: 1, resizeMode: 'cover' }}
-                source={{
-                  uri: 'https://lh5.googleusercontent.com/p/AF1QipOJa-bwqWYbSzivcBL-a4yh4h7c-azaEJk60lFK=w408-h306-k-no',
+          {spots &&
+            spots.map((data: ISpotDetailsPage, index: number) => (
+              <Marker
+                onPress={() => handleModalOpenSpotDetails(data.id)}
+                key={index}
+                coordinate={{
+                  latitude: data.location._latitude,
+                  longitude: data.location._longitude,
                 }}
-              />
-            </View>
-          </Marker>
+                title={data.name}
+              >
+                <MapContentMarker key={index} dataImage={data.spotPhotos[0]} />
+              </Marker>
+            ))}
         </MapView>
+
+        <Modal
+          animationType="fade"
+          transparent={false}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <ModalSpotDetails
+            id={selectedSpot}
+            onPress={() => setModalVisible(!modalVisible)}
+          />
+        </Modal>
 
         <Modalize
           ref={() => modal}
-          modalStyle={{ marginHorizontal: 8, borderRadius: 0 }}
-          alwaysOpen={100}
+          modalStyle={{
+            flex: 1,
+            zIndex: 9999,
+            marginHorizontal: 1,
+            borderRadius: 0,
+          }}
+          alwaysOpen={200}
           handlePosition="outside"
           handleStyle={{
             backgroundColor: COLORS.PRIMARY_BUTTON,
             borderRadius: 0,
           }}
         >
-          {renderContent()}
+          {Content()}
         </Modalize>
       </Container>
     </>

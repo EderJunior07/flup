@@ -2,6 +2,7 @@ export default {
   COLORS: {
     BACKGROUND: '#FFFFFFFF',
     BORDER_COLOR: '#DDDDDDDD',
+    ICONS_PRIMARY_COLOR: '#000',
     PRIMARY_BUTTON: '#000',
     SECONDARY_BUTTON: '#FFF',
 
