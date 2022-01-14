@@ -220,7 +220,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchSpots('');
-  }, []);
+  }, [spots === []]);
 
   useEffect(() => {
     (async function () {
@@ -255,6 +255,7 @@ const Home = () => {
           showsUserLocation
           showsCompass
           minZoomLevel={12}
+          maxZoomLevel={12}
           mapType="standard"
           customMapStyle={customMap}
         >
@@ -275,7 +276,7 @@ const Home = () => {
         </MapView>
 
         <Modal
-          animationType="fade"
+          animationType="slide"
           transparent={false}
           visible={modalVisible}
           onRequestClose={() => {
