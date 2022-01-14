@@ -19,13 +19,25 @@ import {
   HeaderTitle,
   InfoBox,
   InstagramButotn,
+  Label,
+  LabelContainer,
+  LabelWhite,
   PerfilInfoBox,
   UpLabel,
 } from './styles';
 import { TouchableOpacity } from 'react-native';
 import Photo from '../../components/Photo';
+import { useSelector } from 'react-redux';
+import { AppStore } from '../../store/types';
+import { useAuth } from '../../hooks/auth';
+import {User} from '../../hooks/auth'
 
 const Perfil = () => {
+  const { user } = useAuth();
+  const {
+    user: { avatarURL },
+  } = useSelector((state: AppStore) => state);
+
   return (
     <>
       <Container>
@@ -46,22 +58,24 @@ const Perfil = () => {
         <PerfilInfoBox>
           <Photo
             uri={
-              'https://pbs.twimg.com/profile_images/754799272042921984/MPrSUunj_400x400.jpg'
+              avatarURL
+                ? avatarURL
+                : `https://ui-avatars.com/api/?size=128&length=1&background=FF2424&color=FFF&name=${user?.name}`
             }
           />
           <InfoBox>
             <FollowersBox>
               <ColumnBoxLeft>
-                <UpLabel>14</UpLabel>
-                <DownLabel>Vitórias</DownLabel>
+                <UpLabel>23</UpLabel>
+                <DownLabel>Amigos</DownLabel>
               </ColumnBoxLeft>
               <ColumnBoxMiddle>
-                <UpLabel>14</UpLabel>
+                <UpLabel>09</UpLabel>
                 <DownLabel>Rolês</DownLabel>
               </ColumnBoxMiddle>
               <ColumnBoxRight>
-                <UpLabel>14</UpLabel>
-                <DownLabel>Amigos</DownLabel>
+                <UpLabel>15</UpLabel>
+                <DownLabel>Vitórias</DownLabel>
               </ColumnBoxRight>
             </FollowersBox>
             <ButtonsBox>
@@ -76,7 +90,26 @@ const Perfil = () => {
         </PerfilInfoBox>
 
         <AllBlackContainer>
-          {/* <AllBlackContainerLabel>Barueri, SP</AllBlackContainerLabel> */}
+          <LabelContainer>
+            <Label>Base</Label>
+            <MaterialIcons
+              name="circle"
+              color={'#FFF'}
+              size={4}
+              style={{ marginRight: 8 }}
+            />
+            <LabelWhite>GOOFY</LabelWhite>
+          </LabelContainer>
+          <LabelContainer>
+            <Label>Idade</Label>
+            <MaterialIcons
+              name="circle"
+              color={'#FFF'}
+              size={4}
+              style={{ marginRight: 8 }}
+            />
+            <LabelWhite>24 ANOS</LabelWhite>
+          </LabelContainer>
         </AllBlackContainer>
       </Container>
     </>

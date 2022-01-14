@@ -117,8 +117,9 @@ export const DynamicButton = styled(TouchableOpacity)`
 `;
 
 export const DynamicButtonLabel = styled.Text`
-  font-size: 14px;
-  font-family: ${({ theme }) => theme.FONTS.MEDIUM_TEXT};
+  font-size: 12px;
+  text-transform: uppercase;
+  font-family: ${({ theme }) => theme.FONTS.BOLD_TEXT};
   color: ${({ theme }) => theme.COLORS.SECONDARY_BUTTON};
 `;
 
@@ -138,4 +139,26 @@ export const AllBlackContainer = styled.View`
   padding: 0 16px;
   height: 62px;
   background-color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
+`;
+
+export const LabelContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  border-end-width: 1px;
+  border-color: ${({ theme }) => theme.COLORS.SECONDARY_BUTTON}
+  margin-right: 16px;
+`;
+
+export const Label = styled.Text`
+  font-size: 14px;
+  font-family: ${({ theme }) => theme.FONTS.MEDIUM_TEXT};
+  color: ${({ theme }) => theme.COLORS.DESCRIPTION};
+  margin-right: 8px;
+`;
+
+export const LabelWhite = styled.Text`
+  font-size: 14px;
+  font-family: ${({ theme }) => theme.FONTS.MEDIUM_TEXT};
+  color: ${({ theme }) => theme.COLORS.SECONDARY_BUTTON};
+  margin-right: 16px;
 `;

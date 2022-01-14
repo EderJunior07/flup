@@ -13,7 +13,7 @@ import { GetCurrentUser } from '../services/firestore/userMethods';
 import { SetUser } from '../store/ducks/user/actions';
 import { useDispatch } from 'react-redux';
 
-type User = {
+export type User = {
   id: string;
   name: string;
   description: string;
@@ -24,7 +24,7 @@ export type AuthContextData = {
   signOut: () => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
   isLogging: boolean;
-  user: User | null;
+  user: User | undefined;
 };
 
 type AuthProvideProps = {
@@ -36,7 +36,7 @@ const USER_COLLECTION = '@flup:users';
 export const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProvideProps) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User>();
   const [isLogging, setIsLogging] = useState(false);
 
   const dispatch = useDispatch();
@@ -111,7 +111,7 @@ function AuthProvider({ children }: AuthProvideProps) {
   async function signOut() {
     await auth().signOut();
     await AsyncStorage.removeItem(USER_COLLECTION);
-    setUser(null);
+    setUser(undefined);
   }
 
   async function forgotPassword(email: string) {
