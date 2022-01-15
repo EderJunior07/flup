@@ -15,6 +15,7 @@ const Routes = () => {
   const navigationRef = useRef<any>();
   const routeNameRef = useRef();
 
+  
   useEffect(() => {
     console.log('THE USER LOGGED IN ', id)
   }, [id])

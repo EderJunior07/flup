@@ -48,6 +48,7 @@ const Perfil = () => {
   const { signOut } = useAuth();
 
   const [userPhotoURL, setUserPhotoURL] = useState('');
+  const [upload, setUpload] = useState(false);
 
   async function handleImagePicker() {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -60,6 +61,7 @@ const Perfil = () => {
 
       if (!result.cancelled) {
         setUserPhotoURL(result.uri);
+        setUpload(true);
       }
     }
   }
@@ -89,7 +91,7 @@ const Perfil = () => {
 
   useEffect(() => {
     handleStorage();
-  }, [userPhotoURL]);
+  }, [upload]);
 
   return (
     <>
@@ -112,8 +114,8 @@ const Perfil = () => {
           <TouchableOpacity onPress={handleImagePicker}>
             <Photo
               uri={
-                userPhotoURL
-                  ? userPhotoURL
+                photoUrl
+                  ? photoUrl
                   : `https://ui-avatars.com/api/?size=128&length=1&background=FF2424&color=FFF&name=${name}`
               }
             />
