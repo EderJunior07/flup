@@ -7,13 +7,18 @@ import {
   LocationContainer,
   LocationLabel,
   SaludationsContainer,
+  SaludationsDescription,
   SaludationsTitle,
 } from './styles';
 import { useTheme } from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
 import CarouselTrackMap from './carouselTrackMap';
 
-const Content = () => {
+interface IContent {
+  city: string;
+}
+
+const Content = ({ city }: IContent) => {
   const { COLORS } = useTheme();
 
   return (
@@ -21,7 +26,7 @@ const Content = () => {
       <Container>
         <HeaderContainer>
           <LocationContainer>
-            <LocationLabel>Barueri, SP</LocationLabel>
+            <LocationLabel>{city}</LocationLabel>
           </LocationContainer>
           <TouchableOpacity>
             <MaterialIcons
@@ -33,8 +38,13 @@ const Content = () => {
         </HeaderContainer>
         <SaludationsContainer>
           <SaludationsTitle>Bora pro rolê?</SaludationsTitle>
+          <SaludationsDescription>
+            Mamãe já dizia: se for dar um rolê "ollie" para os dois lados antes de atravessar a
+            rua.
+          </SaludationsDescription>
         </SaludationsContainer>
-        <CarouselTrackMap/>
+
+        <CarouselTrackMap />
       </Container>
     </>
   );

@@ -1,6 +1,6 @@
-import { IUser } from './types/user';
+import { IStatus, IUser } from './types/user';
 import firestore from '@react-native-firebase/firestore';
-import { initializeApp} from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 
 // Initialize Firebase
 initializeApp({
@@ -30,13 +30,13 @@ export const CreateUserCollection = async (user: ICreateUser) => {
 
     const newUser: IUser = {
       ...user,
-      socialMedia: [],
-      avatarURL: '',
-      bannerURL: '',
-      displayName: user.displayName,
-      profileRole: '',
-      peopleDescription: '',
-      status: 1,
+      name: user?.displayName,
+      description: '',
+      phoneNumber: null,
+      id: user?.userId,
+      photoUrl: '',
+      formatted_city: '',
+      status: IStatus.ACTIVE,
     };
     await firestore().collection('USER').doc(user.userId).set(newUser);
   } catch (error) {
@@ -46,44 +46,15 @@ export const CreateUserCollection = async (user: ICreateUser) => {
 
 export const UpdateUser = async (user: IUser, userId: string) => {
   console.log('\x1b[36mUPDATE USER', user);
-
-  // const { userId...rest } = user;
-
-  // console.log('\x1b[36mUPDATED THE USER-ID >>> ', userId);
-
   await firestore()
     .collection('USER')
     .doc(userId)
     .update({ ...user });
 };
 
-
-
-
-
-
-
-
-
 export const GetCurrentUser = async (userId: string) => {
   console.log('\x1b[36mGET THE USER >>> ', userId);
 
   const response = await firestore().collection('USER').doc(userId).get();
   return response.data();
-};
-
-export const ExistUser = async (userId: string) => {
-  const response = await firestore().collection('USER').doc(userId).get();
-  return response.data();
-};
-
-const getHigherResProviderPhotoUrl = ({ photoURL, providerId }: any) => {
-  //workaround to get higer res profile picture
-  let result = photoURL;
-  if (providerId.includes('google')) {
-    result = photoURL.replace('s96-c', 's400-c');
-  } else if (providerId.includes('facebook')) {
-    result = `${photoURL}?type=large`;
-  }
-  return result;
 };

@@ -5,12 +5,13 @@ import { Alert, Modal } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import { useTheme } from 'styled-components';
 import MapView, { Marker } from 'react-native-maps';
-  import * as Location from 'expo-location';
-  import firestore from '@react-native-firebase/firestore';
+import * as Location from 'expo-location';
+import firestore from '@react-native-firebase/firestore';
 import Content from '../../components/home/content';
 import MapContentMarker from '../../components/MapMarker';
 import ModalSpotDetails from '../../components/home/content/modalSpotDetails';
 import { useDispatch } from 'react-redux';
+import Geocoder from 'react-native-geocoding';
 
 const customMap = [
   {
@@ -194,14 +195,15 @@ const Home = () => {
   const { COLORS } = useTheme();
   const [origin, setOrigin] = useState<any>();
   const [spots, setSpots] = useState<ISpotDetailsPage[]>([]);
+  const [cityUser, setCityUser] = useState('');
 
   function fetchSpots(value: string) {
     const formattedValue = value.toLocaleLowerCase().trim();
     firestore()
       .collection('SPOTS')
-      .orderBy('name_insensitive')
-      .startAt(formattedValue)
-      .endAt(`${formattedValue}\uf8ff`)
+      // .orderBy('name_insensitive')
+      // .startAt(formattedValue)
+      // .endAt(`${formattedValue}\uf8ff`)
       .get()
       .then((response) => {
         const data = response.docs.map((doc, index) => {
@@ -218,15 +220,24 @@ const Home = () => {
       );
   }
 
-  useEffect(() => {
-    fetchSpots('');
-  }, [spots === []]);
+  // useEffect(() => {
+  //   fetchSpots('');
+  // }, [spots === []]);  
 
   useEffect(() => {
     (async function () {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status === 'granted') {
         let location = await Location.getCurrentPositionAsync();
+
+        const response = await Geocoder.from({
+          lat: location.coords.latitude,
+          lng: location.coords.longitude,
+        });
+        setCityUser(
+          `${response.results[0].address_components[3].short_name.toString() + ', ' + response.results[0].address_components[4].short_name.toString()}`
+        );
+
         setOrigin({
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
@@ -289,6 +300,20 @@ const Home = () => {
           />
         </Modal>
 
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <ModalSpotDetails
+            id={selectedSpot}
+            onPress={() => setModalVisible(!modalVisible)}
+          />
+        </Modal>
+
         <Modalize
           ref={() => modal}
           modalStyle={{
@@ -304,7 +329,7 @@ const Home = () => {
             borderRadius: 0,
           }}
         >
-          {Content()}
+          <Content city={cityUser} />
         </Modalize>
       </Container>
     </>

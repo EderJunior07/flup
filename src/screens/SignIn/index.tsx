@@ -1,54 +1,75 @@
 import Button from '../../components/Button';
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Alert, Text, View } from 'react-native';
 
 import { Container } from './styles';
-import { useAuth } from '../../hooks/auth';
-
-import * as WebBrowser from 'expo-web-browser';
-import * as Google from 'expo-auth-session/providers/google';
-import { initializeApp } from 'firebase/app';
+import { useAuth, User } from '../../hooks/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth';
+import { useDispatch } from 'react-redux';
+import { SetUser } from '../../store/ducks/user/actions';
 import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithCredential,
-} from 'firebase/auth';
-// Initialize Firebase
-
-WebBrowser.maybeCompleteAuthSession();
+  CreateUserCollection,
+  GetCurrentUser,
+} from '../../services/firestore/userMethods';
+import Geocoder from 'react-native-geocoding';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+const USER_COLLECTION = '@flup:users';
 
 const SignIn = () => {
-  const { signIn, user } = useAuth();
-
-  function handleSignIn() {
-    signIn('ederjr6@gmail.com', '12345678');
-  }
+  const { user } = useAuth();
+  const dispatch = useDispatch();
 
 
-  // const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-  //   clientId:
-  //     '778336797649-9b5na6h2gakf1qsgab36bjkvbgh8ru3b.apps.googleusercontent.com',
-  // });
+  const googleSignIn = async () => {
+    GoogleSignin.signIn()
+      .then(async ({ idToken, user }) => {
+        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
-  // React.useEffect(() => {
-  //   if (response?.type === 'success') {
-  //     const { id_token } = response.params;
+        auth().signInWithCredential(googleCredential);
 
-  //     signInWithGoogle(id_token);
-  //   }else if (response?.type === 'error') {
-  //     Alert.alert('erro');
-  //   }
-  // }, [response]);
+        if (user) {
+          const userToDispatch: User = {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            photoUrl: user.photo,
+            phoneNumber: null,
+          };
+
+          console.log(userToDispatch);
+          const userCollectionData: any = {
+            userId: userToDispatch.id,
+            displayName: userToDispatch.name,
+          };
+          CreateUserCollection(userCollectionData);
+
+          const reduxUser = await GetCurrentUser(userToDispatch.id);
+
+          dispatch(SetUser(reduxUser));
+          console.log('REDUX USER :', reduxUser);
+          dispatch(SetUser(reduxUser));
+          dispatch(SetUser(userToDispatch));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <>
       <Container>
-        <Button
-          onPress={() => handleSignIn()}
-          title="Entrar"
-          type="secondary"
-        ></Button>
-
+        <Button onPress={googleSignIn} title="Entrar" type="secondary"></Button>
+        {/* <GooglePlacesAutocomplete
+          placeholder="Para onde?"
+          query={{
+            key: 'AIzaSyD8oNI5P5nkaW_go0J4IXq_MUE6hIInKuM',
+            language: 'pt-br',
+          }}
+          enablePoweredByContainer
+          fetchDetails
+        /> */}
         <Text>{JSON.stringify(user)}</Text>
       </Container>
     </>

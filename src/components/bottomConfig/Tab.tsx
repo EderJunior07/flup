@@ -20,17 +20,11 @@ const Background = styled(Transitioning.View)`
 `;
 
 function Tab({ label, accessibilityState, onPress }: any) {
-  const { user } = useAuth();
-
-  const { name } = user;
+  const {
+    user: { id, photoUrl, name},
+  } = useSelector((state: AppStore) => state);
 
   const focused = accessibilityState.selected;
-
-  const {
-    user: {
-      avatarURL,
-    },
-  } = useSelector((state: AppStore) => state);
 
   const transition = (
     <Transition.Sequence>
@@ -59,8 +53,8 @@ function Tab({ label, accessibilityState, onPress }: any) {
           <Image
             style={{ width: 32, height: 32, borderRadius: 32 }}
             source={{
-              uri: avatarURL
-                ? avatarURL
+              uri: photoUrl
+                ? photoUrl
                 : `https://ui-avatars.com/api/?size=128&length=1&background=FF2424&color=FFF&name=${name}`,
             }}
           />
@@ -73,12 +67,12 @@ function Tab({ label, accessibilityState, onPress }: any) {
         ) : label === 'Comprar' ? (
           <Image
             style={{ width: 24, height: 24 }}
-            source={require('../../assets/images/shopping_bag.png')}
+            source={require('../../../assets/images/shopping_bag.png')}
           />
         ) : (
           <Image
             style={{ width: 24, height: 24, resizeMode: 'cover' }}
-            source={require('../../assets/images/role.png')}
+            source={require('../../../assets/images/role.png')}
           />
         )}
         {focused && (

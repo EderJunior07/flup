@@ -1,11 +1,15 @@
-
 export interface IUser {
-    userId: string,
-    displayName: string,
-    status: 0 | 1 | 2,
-    avatarURL: string;
-    bannerURL: string;
-    profileRole: string;
-    socialMedia: string[];
-    peopleDescription: string,
+  id: string;
+  name: string | null;
+  description: string;
+  photoUrl: string | null;
+  phoneNumber: null;
+  status: IStatus;
+  formatted_city: string;
+}
+
+export enum IStatus {
+  INACTIVE = 0,
+  ACTIVE = 1,
+  PENDING = 2,
 }

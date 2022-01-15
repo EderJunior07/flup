@@ -1,15 +1,24 @@
 {
   "expo": {
-    "name": "flup",
+    "name": "Flup",
     "slug": "flup",
+    "orientation": "vertical",
+    "icon": "./assets/images/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "backgroundColor": "#FFFFFF",
+      "resizeMode": "cover"
+    },
     "scheme": "flup",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "android": {
-      "package": "com.flup"
+      "package": "com.flup",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#FFF"
+      }
     }
   },
-  "name": "flup"
+  "name": "Flup"
 }

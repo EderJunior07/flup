@@ -30,12 +30,11 @@ import Photo from '../../components/Photo';
 import { useSelector } from 'react-redux';
 import { AppStore } from '../../store/types';
 import { useAuth } from '../../hooks/auth';
-import {User} from '../../hooks/auth'
 
 const Perfil = () => {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const {
-    user: { avatarURL },
+    user: { name, photoUrl},
   } = useSelector((state: AppStore) => state);
 
   return (
@@ -47,7 +46,7 @@ const Perfil = () => {
               <MaterialIcons name={'notifications-none'} size={24} />
             </TouchableOpacity>
           </HeaderBoxLeft>
-          <HeaderTitle>Eder Rosa</HeaderTitle>
+          <HeaderTitle>{name}</HeaderTitle>
           <HeaderBoxRight>
             <TouchableOpacity>
               <MaterialIcons name={'settings'} size={24} />
@@ -58,8 +57,8 @@ const Perfil = () => {
         <PerfilInfoBox>
           <Photo
             uri={
-              avatarURL
-                ? avatarURL
+              photoUrl
+                ? photoUrl
                 : `https://ui-avatars.com/api/?size=128&length=1&background=FF2424&color=FFF&name=${user?.name}`
             }
           />

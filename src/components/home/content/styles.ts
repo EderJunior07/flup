@@ -31,15 +31,21 @@ export const LocationLabel = styled.Text`
 
 export const SaludationsContainer = styled.View`
   width: 100%;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 16px;
+  justify-content: center;
+  padding: 16px;
 `;
 
 export const SaludationsTitle = styled.Text`
   font-size: 18px;
+  margin-bottom: 8px;
   text-transform: uppercase;
   font-family: ${({ theme }) => theme.FONTS.BOLD_TEXT};
   color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
+`;
+
+export const SaludationsDescription = styled.Text`
+  font-size: 14px;
+  margin-bottom: 16px;
+  font-family: ${({ theme }) => theme.FONTS.TEXT};
+  color: ${({ theme }) => theme.COLORS.DESCRIPTION};
 `;

@@ -1,17 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
-
 import RoutesAuth from './auth.routes';
 import { useAuth } from '@hooks/auth';
 import AppRoutes from './app.routes';
+import { useSelector } from 'react-redux';
+import { AppStore } from '@src/store/types';
 
 const Routes = () => {
-  const { user } = useAuth();
+  const {
+    user: { id },
+  } = useSelector((state: AppStore) => state);
+
   const navigationRef = useRef<any>();
   const routeNameRef = useRef();
-
-
 
   return (
     <>
@@ -22,7 +24,7 @@ const Routes = () => {
           (routeNameRef.current = navigationRef.current.getCurrentRoute().name)
         }
       >
-        {!user?.id ? <RoutesAuth /> : <AppRoutes/>}
+        {!id ? <RoutesAuth /> : <AppRoutes />}
       </NavigationContainer>
     </>
   );
