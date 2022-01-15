@@ -52,7 +52,6 @@ const SetCityModal = ({ setModalUserCityVisible }: IUserCityModal) => {
 
     dispatch(SetUser(reduxUser));
     console.log('REDUX USER UPDATED :', reduxUser);
-    dispatch(SetUser(reduxUser));
     setModalUserCityVisible(false);
   };
 

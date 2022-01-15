@@ -9,13 +9,12 @@ export const Image = styled.Image`
 `;
 
 export const Placeholder = styled.View`
-  flex: 1;
   width: 132px;
   height: 132px;
   border-radius: 80px;
   justify-content: center;
   align-items: center;
-  border: 1px dashed ${({ theme }) => theme.COLORS.SECONDARY_900};
+  border: 1px dashed ${({ theme }) => theme.COLORS.ERROR_900};
 `;
 
 export const PlaceholderTitle = styled.Text`
