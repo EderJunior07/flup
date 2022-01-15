@@ -1,7 +1,7 @@
 import Button from '../../components/Button';
-import React, { useCallback, useEffect } from 'react';
-import { Alert, Text, View } from 'react-native';
-
+import React, { useState } from 'react';
+import { ActivityIndicator, Text } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Container } from './styles';
 import { useAuth, User } from '../../hooks/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
@@ -12,18 +12,19 @@ import {
   CreateUserCollection,
   GetCurrentUser,
 } from '../../services/firestore/userMethods';
-import Geocoder from 'react-native-geocoding';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-const USER_COLLECTION = '@flup:users';
+import { useTheme } from 'styled-components/native';
+
+const USER_COLLECTION = '@flup:user';
 
 const SignIn = () => {
-  const { user } = useAuth();
+  const { COLORS } = useTheme();
+  const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
-
 
   const googleSignIn = async () => {
     GoogleSignin.signIn()
       .then(async ({ idToken, user }) => {
+        setLoading(true);
         const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
         auth().signInWithCredential(googleCredential);
@@ -49,7 +50,7 @@ const SignIn = () => {
           dispatch(SetUser(reduxUser));
           console.log('REDUX USER :', reduxUser);
           dispatch(SetUser(reduxUser));
-          dispatch(SetUser(userToDispatch));
+          setLoading(false);
         }
       })
       .catch((err) => {
@@ -60,17 +61,15 @@ const SignIn = () => {
   return (
     <>
       <Container>
-        <Button onPress={googleSignIn} title="Entrar" type="secondary"></Button>
-        {/* <GooglePlacesAutocomplete
-          placeholder="Para onde?"
-          query={{
-            key: 'AIzaSyD8oNI5P5nkaW_go0J4IXq_MUE6hIInKuM',
-            language: 'pt-br',
-          }}
-          enablePoweredByContainer
-          fetchDetails
-        /> */}
-        <Text>{JSON.stringify(user)}</Text>
+        {!loading ? (
+          <Button
+            onPress={googleSignIn}
+            title="Entrar"
+            type="secondary"
+          ></Button>
+        ) : (
+          <ActivityIndicator size="large" color={COLORS.SUCCESS_900} />
+        )}
       </Container>
     </>
   );

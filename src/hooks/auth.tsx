@@ -48,82 +48,9 @@ function AuthProvider({ children }: AuthProvideProps) {
   const dispatch = useDispatch();
 
   const googleSignIn = useCallback(() => {
-    GoogleSignin.signIn()
-      .then(({ idToken, user }) => {
-        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
-        auth().signInWithCredential(googleCredential);
-
-        if (user) {
-          const userToDispatch: User = {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            photoUrl: user.photo,
-            phoneNumber: null,
-          };
-
-          dispatch(SetUser(userToDispatch));
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-        // Alert.alert('Login', 'Google Sign In, fora do ar...', err);
-      });
+   
   }, []);
 
-  // async function signIn(email: string, password: string) {
-  //   if (!email || !password) {
-  //     return Alert.alert('Login', 'Informe o e-mail e a senha.');
-  //   }
-
-  //   setIsLogging(true);
-
-  //   auth()
-  //     .signInWithEmailAndPassword(email, password)
-  //     .then((account) => {
-  //       firestore()
-  //         .collection('USER')
-  //         .doc(account.user.uid)
-  //         .get()
-  //         .then(async (profile: any) => {
-  //           const { name, description } = profile.data() as User;
-
-  //           if (profile.exists) {
-  //             const userData = {
-  //               id: account.user.uid,
-  //               name,
-  //               description,
-  //             };
-  //             console.log('Usuário logado: ', userData);
-  //             await AsyncStorage.setItem(
-  //               USER_COLLECTION,
-  //               JSON.stringify(userData)
-  //             );
-  //             setUser(userData);
-  //             const reduxUser = await GetCurrentUser(userData.id);
-  //             console.log('REDUX USER :', reduxUser);
-  //             dispatch(SetUser(reduxUser));
-  //           }
-  //         })
-  //         .catch(() => {
-  //           return Alert.alert(
-  //             'Login',
-  //             'Não foi possível buscar os dados do usuário.'
-  //           );
-  //         });
-  //     })
-  //     .catch((error) => {
-  //       const { code } = error;
-
-  //       if (code === 'auth/user-not-found' || 'auth/wrong-password') {
-  //         return Alert.alert('Login', 'E-mail e/ou senha inválida.');
-  //       } else {
-  //         return Alert.alert('Login', 'Não foi possível realizar o login.');
-  //       }
-  //     })
-  //     .finally(() => setIsLogging(false));
-  // }
 
   async function loadUserStorageData() {
     setIsLogging(true);
@@ -141,6 +68,8 @@ function AuthProvider({ children }: AuthProvideProps) {
 
   async function signOut() {
     await auth().signOut();
+    dispatch(SetUser(''));
+
     await AsyncStorage.removeItem(USER_COLLECTION);
     setUser(undefined);
   }

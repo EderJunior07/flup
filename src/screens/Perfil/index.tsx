@@ -32,10 +32,13 @@ import { AppStore } from '../../store/types';
 import { useAuth } from '../../hooks/auth';
 
 const Perfil = () => {
-  const { user, signOut } = useAuth();
   const {
-    user: { name, photoUrl},
+    user: { name, photoUrl },
   } = useSelector((state: AppStore) => state);
+
+  const { signOut } = useAuth();
+
+  
 
   return (
     <>
@@ -49,7 +52,7 @@ const Perfil = () => {
           <HeaderTitle>{name}</HeaderTitle>
           <HeaderBoxRight>
             <TouchableOpacity>
-              <MaterialIcons name={'settings'} size={24} />
+              <MaterialIcons onPress={signOut} name={'logout'} size={24} />
             </TouchableOpacity>
           </HeaderBoxRight>
         </Header>
@@ -59,7 +62,7 @@ const Perfil = () => {
             uri={
               photoUrl
                 ? photoUrl
-                : `https://ui-avatars.com/api/?size=128&length=1&background=FF2424&color=FFF&name=${user?.name}`
+                : `https://ui-avatars.com/api/?size=128&length=1&background=FF2424&color=FFF&name=${name}`
             }
           />
           <InfoBox>

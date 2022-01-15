@@ -11,14 +11,15 @@ import {
   SaludationsTitle,
 } from './styles';
 import { useTheme } from 'styled-components/native';
-import { TouchableOpacity } from 'react-native';
+import { ActivityIndicator, TouchableOpacity } from 'react-native';
 import CarouselTrackMap from './carouselTrackMap';
 
 interface IContent {
   city: string;
+  loading: boolean
 }
 
-const Content = ({ city }: IContent) => {
+const Content = ({ city, loading}: IContent) => {
   const { COLORS } = useTheme();
 
   return (
@@ -26,7 +27,7 @@ const Content = ({ city }: IContent) => {
       <Container>
         <HeaderContainer>
           <LocationContainer>
-            <LocationLabel>{city}</LocationLabel>
+            {loading ? <ActivityIndicator size="small" color={COLORS.SUCCESS_900}/> : <LocationLabel>{city}</LocationLabel>}
           </LocationContainer>
           <TouchableOpacity>
             <MaterialIcons

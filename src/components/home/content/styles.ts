@@ -19,7 +19,7 @@ export const LocationContainer = styled.View`
   justify-content: center;
   min-width: 112px;
   padding: 0 8px;
-  height: 56px;
+  height: 42px;
   background-color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
 `;
 

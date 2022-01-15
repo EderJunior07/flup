@@ -10,8 +10,10 @@ import firestore from '@react-native-firebase/firestore';
 import Content from '../../components/home/content';
 import MapContentMarker from '../../components/MapMarker';
 import ModalSpotDetails from '../../components/home/content/modalSpotDetails';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Geocoder from 'react-native-geocoding';
+import SetCityModal from '../../components/Modals/SetCityModal';
+import { AppStore } from '../../store/types';
 
 const customMap = [
   {
@@ -188,9 +190,18 @@ export type ISpotDetailsPage = {
 };
 
 const Home = () => {
+  const {
+    user: { formatted_city },
+  } = useSelector((state: AppStore) => state);
+
   const dispatch = useDispatch();
   const modal = React.createRef();
-  const [modalVisible, setModalVisible] = useState<any>(false);
+
+  const [loadingCity, setLoadingCity] = useState(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [modalUserCityVisible, setModalUserCityVisible] = useState<boolean>(
+    formatted_city ? false : true
+  );
   const [selectedSpot, setSelectedSpot] = useState<string>('');
   const { COLORS } = useTheme();
   const [origin, setOrigin] = useState<any>();
@@ -198,12 +209,8 @@ const Home = () => {
   const [cityUser, setCityUser] = useState('');
 
   function fetchSpots(value: string) {
-    const formattedValue = value.toLocaleLowerCase().trim();
     firestore()
       .collection('SPOTS')
-      // .orderBy('name_insensitive')
-      // .startAt(formattedValue)
-      // .endAt(`${formattedValue}\uf8ff`)
       .get()
       .then((response) => {
         const data = response.docs.map((doc, index) => {
@@ -220,12 +227,13 @@ const Home = () => {
       );
   }
 
-  // useEffect(() => {
-  //   fetchSpots('');
-  // }, [spots === []]);  
+  useEffect(() => {
+    fetchSpots('');
+  }, [spots === []]);
 
   useEffect(() => {
     (async function () {
+      setLoadingCity(true);
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status === 'granted') {
         let location = await Location.getCurrentPositionAsync();
@@ -235,7 +243,11 @@ const Home = () => {
           lng: location.coords.longitude,
         });
         setCityUser(
-          `${response.results[0].address_components[3].short_name.toString() + ', ' + response.results[0].address_components[4].short_name.toString()}`
+          `${
+            response.results[0].address_components[3].short_name.toString() +
+            ', ' +
+            response.results[0].address_components[4].short_name.toString()
+          }`
         );
 
         setOrigin({
@@ -244,6 +256,7 @@ const Home = () => {
           latitudeDelta: 0.00922,
           longitudeDelta: 0.00421,
         });
+        setLoadingCity(false)
       } else {
         throw new Error('Location permission not granted');
       }
@@ -303,15 +316,12 @@ const Home = () => {
         <Modal
           animationType="slide"
           transparent={false}
-          visible={modalVisible}
+          visible={modalUserCityVisible}
           onRequestClose={() => {
-            setModalVisible(!modalVisible);
+            setModalVisible(!modalUserCityVisible);
           }}
         >
-          <ModalSpotDetails
-            id={selectedSpot}
-            onPress={() => setModalVisible(!modalVisible)}
-          />
+          <SetCityModal setModalUserCityVisible={setModalUserCityVisible} />
         </Modal>
 
         <Modalize
@@ -329,7 +339,7 @@ const Home = () => {
             borderRadius: 0,
           }}
         >
-          <Content city={cityUser} />
+          <Content city={cityUser} loading={loadingCity} />
         </Modalize>
       </Container>
     </>
