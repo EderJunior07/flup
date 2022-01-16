@@ -21,8 +21,7 @@ const CarouselTrackMap = () => {
         const data = response.docs.map((doc, index) => {
           return {
             id: doc.id,
-            ...doc.data(),
-            key: index,
+            ...doc.data()
           };
         }) as ISpotDetailsPage[];
 
@@ -40,7 +39,7 @@ const CarouselTrackMap = () => {
   return (
     <>
       <ScrollView
-        style={{ flex: 1, paddingLeft: 8 }}
+        style={{ flex: 1, paddingLeft: 8, marginBottom: 16 }}
         horizontal
         showsHorizontalScrollIndicator={false}
       >

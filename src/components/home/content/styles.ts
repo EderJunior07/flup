@@ -49,3 +49,17 @@ export const SaludationsDescription = styled.Text`
   font-family: ${({ theme }) => theme.FONTS.TEXT};
   color: ${({ theme }) => theme.COLORS.DESCRIPTION};
 `;
+
+export const TitleContainer = styled.View`
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  padding: 16px;
+`;
+
+export const Title = styled.Text`
+  font-size: 14px;
+  text-transform: uppercase;
+  font-family: ${({ theme }) => theme.FONTS.BOLD_TEXT};
+  color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
+`;
