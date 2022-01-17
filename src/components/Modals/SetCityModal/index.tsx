@@ -69,9 +69,10 @@ const SetCityModal = ({ setModalUserCityVisible }: IUserCityModal) => {
           query={{
             key: 'AIzaSyD8oNI5P5nkaW_go0J4IXq_MUE6hIInKuM',
             language: 'pt-br',
+            types: '(cities)',
           }}
           onPress={(data, details = null) => {
-            setMyCity(details?.formatted_address);
+            setMyCity(details?.address_components[0].short_name);
           }}
           enablePoweredByContainer
           fetchDetails

@@ -49,7 +49,6 @@ const SignIn = () => {
 
           dispatch(SetUser(reduxUser));
           console.log('REDUX USER :', reduxUser);
-          dispatch(SetUser(reduxUser));
           setLoading(false);
         }
       })

@@ -242,12 +242,10 @@ const Home = () => {
           lat: location.coords.latitude,
           lng: location.coords.longitude,
         });
+
+      
         setCityUser(
-          `${
-            response.results[0].address_components[3].short_name.toString() +
-            ', ' +
-            response.results[0].address_components[4].short_name.toString()
-          }`
+          `${response.results[2].address_components[3].short_name.toString()}`
         );
 
         setOrigin({
@@ -256,7 +254,7 @@ const Home = () => {
           latitudeDelta: 0.00922,
           longitudeDelta: 0.00421,
         });
-        setLoadingCity(false)
+        setLoadingCity(false);
       } else {
         throw new Error('Location permission not granted');
       }

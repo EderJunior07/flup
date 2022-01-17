@@ -48,7 +48,7 @@ const Perfil = () => {
   const { signOut } = useAuth();
 
   const [userPhotoURL, setUserPhotoURL] = useState('');
-  const [upload, setUpload] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function handleImagePicker() {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -61,12 +61,14 @@ const Perfil = () => {
 
       if (!result.cancelled) {
         setUserPhotoURL(result.uri);
-        setUpload(true);
       }
+
+      handleStorage();
     }
   }
 
   const handleStorage = async () => {
+    setLoading(true);
     const reference = storage().ref(`/users_photos/${id}.png`);
 
     await reference.putFile(userPhotoURL);
@@ -87,11 +89,8 @@ const Perfil = () => {
 
     dispatch(SetUser(reduxUser));
     console.log('REDUX USER UPDATED :', reduxUser);
+    setLoading(false);
   };
-
-  useEffect(() => {
-    handleStorage();
-  }, [upload]);
 
   return (
     <>
@@ -113,6 +112,7 @@ const Perfil = () => {
         <PerfilInfoBox>
           <TouchableOpacity onPress={handleImagePicker}>
             <Photo
+              loading={loading}
               uri={
                 photoUrl
                   ? photoUrl

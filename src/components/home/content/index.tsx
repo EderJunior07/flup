@@ -13,8 +13,9 @@ import {
   TitleContainer,
 } from './styles';
 import { useTheme } from 'styled-components/native';
-import { ActivityIndicator, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import CarouselTrackMap from './carouselTrackMap';
+import CarouselTrackNewUsers from './carouselTrackNewUsers';
 
 interface IContent {
   city: string;
@@ -37,7 +38,7 @@ const Content = ({ city, loading }: IContent) => {
           </LocationContainer>
           <TouchableOpacity>
             <MaterialIcons
-              name="notifications"
+              name="notifications-none"
               size={24}
               color={COLORS.ICONS_PRIMARY_COLOR}
             />
@@ -53,11 +54,20 @@ const Content = ({ city, loading }: IContent) => {
         <CarouselTrackMap />
 
         <TitleContainer>
-          <MaterialIcons name="supervised-user-circle"  size={24} style={{marginRight: 4}}/>
-          <Title>Galera de</Title>
+          <MaterialIcons
+            name="supervised-user-circle"
+            size={24}
+            style={{ marginRight: 4 }}
+          />
+          <Title>
+            Galera de <Text style={{color: COLORS.SUCCESS_900}}>{city}</Text>
+          </Title>
         </TitleContainer>
 
-        <Title></Title>
+        <CarouselTrackNewUsers city={city}/>
+
+
+
       </Container>
     </>
   );
