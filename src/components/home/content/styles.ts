@@ -15,10 +15,11 @@ export const HeaderContainer = styled.View`
 `;
 
 export const LocationContainer = styled.View`
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   min-width: 112px;
-  padding: 0 8px;
+  padding: 0 16px;
   height: 42px;
   background-color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
 `;

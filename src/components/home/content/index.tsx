@@ -33,7 +33,15 @@ const Content = ({ city, loading }: IContent) => {
             {loading ? (
               <ActivityIndicator size="small" color={COLORS.SUCCESS_900} />
             ) : (
-              <LocationLabel>{city}</LocationLabel>
+              <>
+                <MaterialIcons
+                  name="location-searching"
+                  size={18}
+                  color={COLORS.SECONDARY_BUTTON}
+                  style={{ alignSelf: 'center', marginRight: 4 }}
+                />
+                <LocationLabel>{city}</LocationLabel>
+              </>
             )}
           </LocationContainer>
           <TouchableOpacity>
@@ -60,14 +68,11 @@ const Content = ({ city, loading }: IContent) => {
             style={{ marginRight: 4 }}
           />
           <Title>
-            Galera de <Text style={{color: COLORS.SUCCESS_900}}>{city}</Text>
+            Flupers de <Text style={{ color: COLORS.SUCCESS_900 }}>{city}</Text>
           </Title>
         </TitleContainer>
 
-        <CarouselTrackNewUsers city={city}/>
-
-
-
+        <CarouselTrackNewUsers city={city} />
       </Container>
     </>
   );

@@ -4,12 +4,16 @@ import firestore from '@react-native-firebase/firestore';
 
 import { Container, Name } from './styles';
 import { IUser } from '../../../../services/firestore/types/user';
+import { useDispatch } from 'react-redux';
+import { SetNewUsersAtTheCity } from '../../../../store/ducks/newUsersAtCity/actions';
 
 interface ICarouselTrackNewUsers {
   city: string;
 }
 
 const CarouselTrackNewUsers = ({ city }: ICarouselTrackNewUsers) => {
+  const dispatch = useDispatch();
+
   const [newUsersAtTheCity, setNewUsersAtTheCity] = useState([]);
   const [cityHasMembers, setCityHasMembers] = useState(false);
 
@@ -28,6 +32,8 @@ const CarouselTrackNewUsers = ({ city }: ICarouselTrackNewUsers) => {
     setCityHasMembers(true);
 
     let response: any = [];
+
+    dispatch(SetNewUsersAtTheCity(response));
 
     snapshots.forEach((doc) => {
       response.push(doc.data());
