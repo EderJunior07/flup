@@ -2,17 +2,7 @@ import { ISpotDetailsPage } from '@src/screens/Home';
 import { IUser } from '../../../services/firestore/types/user';
 import { Types } from './types';
 
-const INITIAL_STATE: IUser[] = [
-  {
-    id: '',
-    description: '',
-    formatted_city: '',
-    name: '',
-    phoneNumber: null,
-    photoUrl: '',
-    status: 0
-  },
-];
+const INITIAL_STATE: IUser[] = [];
 
 const reducer = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {

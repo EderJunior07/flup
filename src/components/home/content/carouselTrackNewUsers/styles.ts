@@ -1,6 +1,11 @@
+import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const Container = styled(TouchableOpacity).attrs<TouchableOpacityProps>(
+  () => ({
+    touchableOpacity: 0,
+  })
+)`
     flex: 1;
     width: 156px;
     height: 156px;

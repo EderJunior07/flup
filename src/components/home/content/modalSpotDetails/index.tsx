@@ -14,7 +14,14 @@ import {
 } from './styles';
 
 import { MaterialIcons } from '@expo/vector-icons';
-import { Alert, Image, Linking, Platform, ScrollView, TouchableOpacityProps } from 'react-native';
+import {
+  Alert,
+  Image,
+  Linking,
+  Platform,
+  ScrollView,
+  TouchableOpacityProps,
+} from 'react-native';
 import { ISpotDetailsPage } from '../../../../screens/Home';
 
 import firestore from '@react-native-firebase/firestore';
@@ -100,7 +107,12 @@ const ModalSpotDetails = ({ id, ...rest }: Props) => {
         </HeaderContainer>
 
         <LocationContainer>
-          <LocationLabel>Barueri, SP</LocationLabel>
+          <MaterialIcons
+            name="location-on"
+            size={24}
+            color={COLORS.SECONDARY_BUTTON}
+          />
+          <LocationLabel>{spot?.formatted_city}</LocationLabel>
         </LocationContainer>
         <TitleBox>
           <MaterialIcons name="supervised-user-circle" size={28} />

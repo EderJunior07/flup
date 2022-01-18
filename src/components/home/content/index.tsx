@@ -59,7 +59,7 @@ const Content = ({ city, loading }: IContent) => {
             de atravessar a rua.
           </SaludationsDescription>
         </SaludationsContainer>
-        <CarouselTrackMap />
+        <CarouselTrackMap city={city} />
 
         <TitleContainer>
           <MaterialIcons

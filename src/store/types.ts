@@ -1,7 +1,9 @@
 
+import { ISpotDetailsPage } from '@src/screens/Home';
 import { IUser } from '../services/firestore/types/user';
 
 export interface AppStore {
   user: IUser;
-  // profile: IProfile;
+  spots: ISpotDetailsPage;
+  newUsersAtTheCity: IUser[];
 }

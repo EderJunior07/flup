@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { Image, Modal, ScrollView, Text, View } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
 import { Container, Name } from './styles';
 import { IUser } from '../../../../services/firestore/types/user';
 import { useDispatch } from 'react-redux';
 import { SetNewUsersAtTheCity } from '../../../../store/ducks/newUsersAtCity/actions';
+import ModalPerfilNewUsers from './modalPerfilNewUsers';
 
 interface ICarouselTrackNewUsers {
   city: string;
@@ -13,6 +14,9 @@ interface ICarouselTrackNewUsers {
 
 const CarouselTrackNewUsers = ({ city }: ICarouselTrackNewUsers) => {
   const dispatch = useDispatch();
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [userSelected, setSelectedUser] = useState('');
 
   const [newUsersAtTheCity, setNewUsersAtTheCity] = useState([]);
   const [cityHasMembers, setCityHasMembers] = useState(false);
@@ -25,7 +29,7 @@ const CarouselTrackNewUsers = ({ city }: ICarouselTrackNewUsers) => {
       .get();
 
     if (snapshots.empty) {
-      console.log('No matching documents.');
+      console.log('No matching documents for TRACK NEW USERS.');
       setCityHasMembers(false);
       return;
     }
@@ -33,12 +37,14 @@ const CarouselTrackNewUsers = ({ city }: ICarouselTrackNewUsers) => {
 
     let response: any = [];
 
-    dispatch(SetNewUsersAtTheCity(response));
-
+   
     snapshots.forEach((doc) => {
       response.push(doc.data());
       return doc.data();
     });
+
+    dispatch(SetNewUsersAtTheCity([response]));
+
 
     setNewUsersAtTheCity(response);
     return response;
@@ -48,8 +54,23 @@ const CarouselTrackNewUsers = ({ city }: ICarouselTrackNewUsers) => {
     trackNewUser();
   }, [city]);
 
+  function handleModalUserSelected(id: string) {
+    setModalVisible(true);
+    setSelectedUser(id);
+  }
+
   return (
     <>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <ModalPerfilNewUsers id={userSelected} />
+      </Modal>
       {cityHasMembers ? (
         <ScrollView
           style={{ flex: 1, paddingLeft: 8, marginBottom: 16 }}
@@ -57,8 +78,8 @@ const CarouselTrackNewUsers = ({ city }: ICarouselTrackNewUsers) => {
           showsHorizontalScrollIndicator={false}
         >
           {newUsersAtTheCity &&
-            newUsersAtTheCity.map((data: any, index: number) => (
-              <Container key={index}>
+            newUsersAtTheCity.map((data: IUser[] | any, index: number) => (
+              <Container activeOpacity={1}  onPress={() => handleModalUserSelected(data.id)} key={index}>
                 <Image
                   style={{
                     width: 120,

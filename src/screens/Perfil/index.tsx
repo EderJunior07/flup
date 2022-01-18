@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Modal, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
@@ -30,6 +30,7 @@ import {
   LabelWhite,
   PerfilInfoBox,
   UpLabel,
+  UserDescription,
 } from './styles';
 import Photo from '../../components/Photo';
 import { useDispatch, useSelector } from 'react-redux';
@@ -37,18 +38,22 @@ import { AppStore } from '../../store/types';
 import { useAuth } from '../../hooks/auth';
 import { GetCurrentUser } from '../../services/firestore/userMethods';
 import { SetUser } from '../../store/ducks/user/actions';
+import { useTheme } from 'styled-components/native';
+import ModalEmptyFields from '../../components/perfil/content/modalEmptyFields';
 
 const Perfil = () => {
   const {
-    user: { id, name, photoUrl },
+    user: { id, name, photoUrl, formatted_city, description },
   } = useSelector((state: AppStore) => state);
 
+  const { COLORS } = useTheme();
   const dispatch = useDispatch();
 
   const { signOut } = useAuth();
 
   const [userPhotoURL, setUserPhotoURL] = useState('');
   const [loading, setLoading] = useState(false);
+  const [emptyFiedsModal, setEmptyFiedsModal] = useState(false)
 
   async function handleImagePicker() {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -148,6 +153,14 @@ const Perfil = () => {
 
         <AllBlackContainer>
           <LabelContainer>
+            <MaterialIcons
+              name="location-on"
+              size={24}
+              color={COLORS.SECONDARY_BUTTON}
+            />
+            <LabelWhite> {formatted_city && formatted_city}</LabelWhite>
+          </LabelContainer>
+          <LabelContainer>
             <Label>Base</Label>
             <MaterialIcons
               name="circle"
@@ -157,18 +170,22 @@ const Perfil = () => {
             />
             <LabelWhite>GOOFY</LabelWhite>
           </LabelContainer>
-          <LabelContainer>
-            <Label>Idade</Label>
-            <MaterialIcons
-              name="circle"
-              color={'#FFF'}
-              size={4}
-              style={{ marginRight: 8 }}
-            />
-            <LabelWhite>24 ANOS</LabelWhite>
-          </LabelContainer>
         </AllBlackContainer>
+
+        <UserDescription>{description && description}</UserDescription>
       </Container>
+
+      <Modal
+          animationType="slide"
+          transparent={false}
+          visible={true}
+          presentationStyle='pageSheet'
+          onRequestClose={() => {
+            setEmptyFiedsModal(!emptyFiedsModal);
+          }}
+        >
+          <ModalEmptyFields/>
+        </Modal>
     </>
   );
 };

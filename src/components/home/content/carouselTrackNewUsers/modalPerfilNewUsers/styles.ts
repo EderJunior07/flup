@@ -108,10 +108,11 @@ export const ButtonsBox = styled.View`
 `;
 
 export const DynamicButton = styled(TouchableOpacity)`
+flex-direction: row;
   flex: 2;
   height: 48px;
   margin-right: 8px;
-  background-color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON}
+  background-color: ${({ theme }) => theme.COLORS.PRIMARY_900}
   align-items: center;
   justify-content: center;
 `;
