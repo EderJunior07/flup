@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Geocoder from 'react-native-geocoding';
 import SetCityModal from '../../components/Modals/SetCityModal';
 import { AppStore } from '../../store/types';
+import { SetSpots } from '../../store/ducks/spots/actions';
 
 const customMap = [
   {
@@ -208,7 +209,7 @@ const Home = () => {
   const [spots, setSpots] = useState<ISpotDetailsPage[]>([]);
   const [cityUser, setCityUser] = useState('');
 
-  function fetchSpots(value: string) {
+  function fetchSpots() {
     firestore()
       .collection('SPOTS')
       .get()
@@ -219,17 +220,18 @@ const Home = () => {
             ...doc.data(),
           };
         }) as ISpotDetailsPage[];
-        dispatch(setSpots(data));
+        dispatch(SetSpots(data));
         setSpots(data);
       })
-      .catch(() =>
-        Alert.alert('Consulta', 'Não foi possível realizar a consulta.')
+      .catch((e) =>
+        console.log ('Consulta', 'Não foi possível realizar a consulta.', e)
       );
   }
 
+
   useEffect(() => {
-    fetchSpots('');
-  }, [spots === []]);
+    fetchSpots();
+  }, []);
 
   useEffect(() => {
     (async function () {
@@ -243,10 +245,11 @@ const Home = () => {
           lng: location.coords.longitude,
         });
 
-      
-        setCityUser(
-          `${response.results[2].address_components[3].short_name.toString()}`
-        );
+        const cityObject = response.results[0].address_components.find((i) => {
+          return i.types.includes('administrative_area_level_2');
+        });
+
+        setCityUser(`${cityObject?.short_name}`);
 
         setOrigin({
           latitude: location.coords.latitude,
