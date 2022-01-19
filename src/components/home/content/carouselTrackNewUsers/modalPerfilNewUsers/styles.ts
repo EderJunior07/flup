@@ -108,7 +108,7 @@ export const ButtonsBox = styled.View`
 `;
 
 export const DynamicButton = styled(TouchableOpacity)`
-flex-direction: row;
+  flex-direction: row;
   flex: 2;
   height: 48px;
   margin-right: 8px;
@@ -171,3 +171,4 @@ export const UserDescription = styled.Text`
   color: ${({ theme }) => theme.COLORS.DESCRIPTION};
   margin: 16px;
 `;
+
