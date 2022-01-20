@@ -39,11 +39,11 @@ import { useAuth } from '../../hooks/auth';
 import { GetCurrentUser } from '../../services/firestore/userMethods';
 import { SetUser } from '../../store/ducks/user/actions';
 import { useTheme } from 'styled-components/native';
-import ModalEmptyFields from '../../components/perfil/content/modalEmptyFields';
+import SetPerfilDetailsModal from '../../components/Modals/SetPerfilDetailsModal';
 
 const Perfil = () => {
   const {
-    user: { id, name, photoUrl, formatted_city, description },
+    user: { id, name, photoUrl, formatted_city, description, base_at_skate_type },
   } = useSelector((state: AppStore) => state);
 
   const { COLORS } = useTheme();
@@ -53,7 +53,9 @@ const Perfil = () => {
 
   const [userPhotoURL, setUserPhotoURL] = useState('');
   const [loading, setLoading] = useState(false);
-  const [emptyFiedsModal, setEmptyFiedsModal] = useState(false)
+  const [emptyFiedsModal, setEmptyFiedsModal] = useState(
+    !description || !base_at_skate_type ? true : false
+  );
 
   async function handleImagePicker() {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -176,16 +178,16 @@ const Perfil = () => {
       </Container>
 
       <Modal
-          animationType="slide"
-          transparent={false}
-          visible={true}
-          presentationStyle='pageSheet'
-          onRequestClose={() => {
-            setEmptyFiedsModal(!emptyFiedsModal);
-          }}
-        >
-          <ModalEmptyFields/>
-        </Modal>
+        animationType="slide"
+        transparent={false}
+        visible={emptyFiedsModal}
+        presentationStyle="pageSheet"
+        onRequestClose={() => {
+          setEmptyFiedsModal(!emptyFiedsModal);
+        }}
+      >
+        <SetPerfilDetailsModal setEmptyFiedsModal={setEmptyFiedsModal} />
+      </Modal>
     </>
   );
 };

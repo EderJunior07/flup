@@ -6,6 +6,7 @@ export interface IUser {
   phoneNumber: null;
   status: IStatus;
   formatted_city: string;
+  base_at_skate_type: string[]
 }
 
 export enum IStatus {

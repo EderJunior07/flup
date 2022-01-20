@@ -8,6 +8,7 @@ const INITIAL_STATE: IUser = {
   status: 0,
   name: '',
   photoUrl: '',
+  base_at_skate_type: [''],
   phoneNumber: null,
 };
 

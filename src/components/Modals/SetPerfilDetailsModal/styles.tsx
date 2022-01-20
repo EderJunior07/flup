@@ -1,6 +1,7 @@
+import { TouchableOpacity } from 'react-native';
 import styled, { css } from 'styled-components/native';
 
-export const Container = styled.View`
+export const Container = styled.KeyboardAvoidingView`
   flex: 1;
   background-color: ${({ theme }) => theme.COLORS.BACKGROUND};
   padding: 24px 0;
@@ -68,4 +69,21 @@ export const MaxCharacters = styled.Text`
     font-family: ${theme.FONTS.MEDIUM_TEXT};
     color: ${theme.COLORS.PRIMARY_BUTTON};
   `}
+`;
+
+export const ToggleBox = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 0;
+`;
+
+
+
+export const ButtonLabel = styled.Text`
+  font-size: 12px;
+  text-transform: uppercase;
+  font-family: ${({ theme }) => theme.FONTS.BOLD_TEXT};
+  color: ${({ theme }) => theme.COLORS.SECONDARY_BUTTON};
+  z-index: 9999;
 `;
