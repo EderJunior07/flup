@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -65,7 +65,7 @@ const ModalPerfilNewUsers = ({ id }: IModalPerfilNewUsers) => {
     handleUserSelected();
   }, [id]);
 
-
+  
   return (
     <>
       {loading ? (
@@ -128,7 +128,7 @@ const ModalPerfilNewUsers = ({ id }: IModalPerfilNewUsers) => {
                 </ColumnBoxRight>
               </FollowersBox>
               <ButtonsBox>
-                <DynamicButton>
+                <DynamicButton onPress={() => Alert.alert('dasd')}>
                   <MaterialIcons
                     name="emoji-people"
                     size={24}
@@ -163,7 +163,9 @@ const ModalPerfilNewUsers = ({ id }: IModalPerfilNewUsers) => {
                 size={4}
                 style={{ marginRight: 8 }}
               />
-              <LabelWhite>GOOFY</LabelWhite>
+              <LabelWhite>
+                {userSelected && userSelected?.base_at_skate_type}
+              </LabelWhite>
             </LabelContainer>
           </AllBlackContainer>
 

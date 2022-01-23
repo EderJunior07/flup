@@ -34,7 +34,7 @@ export const NameContainer = styled.View`
   justify-content: center;
   flex-direction: row;
   position: absolute;
-  top: 182px;
+  top: 242px;
   left: 16px;
   padding: 8px 16px;
   background-color: ${({ theme }) => theme.COLORS.SECONDARY_BUTTON};
@@ -90,4 +90,39 @@ export const Title = styled.Text`
   font-family: ${({ theme }) => theme.FONTS.BOLD_TEXT};
   color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
   z-index: 9999;
+`;
+
+
+export const Header = styled.View`
+  width: 100%;
+  height: 62px;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  border-width: 1px;
+  border-color: ${({ theme }) => theme.COLORS.BORDER_COLOR};
+`;
+
+export const HeaderBoxLeft = styled.View`
+  align-items: center;
+  justify-content: center;
+  border-end-width: 1px;
+  padding: 8px 16px;
+  border-color: ${({ theme }) => theme.COLORS.BORDER_COLOR};
+`;
+
+export const HeaderBoxRight = styled.View`
+  align-items: center;
+  justify-content: center;
+  border-start-width: 1px;
+  padding: 8px 16px;
+  border-color: ${({ theme }) => theme.COLORS.BORDER_COLOR};
+`;
+
+export const HeaderTitle = styled.Text`
+  justify-content: center;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-family: ${({ theme }) => theme.FONTS.BOLD_TEXT};
+  color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
 `;

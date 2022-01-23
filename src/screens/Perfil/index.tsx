@@ -130,15 +130,15 @@ const Perfil = () => {
           <InfoBox>
             <FollowersBox>
               <ColumnBoxLeft>
-                <UpLabel>23</UpLabel>
+                <UpLabel>00</UpLabel>
                 <DownLabel>Amigos</DownLabel>
               </ColumnBoxLeft>
               <ColumnBoxMiddle>
-                <UpLabel>09</UpLabel>
+                <UpLabel>00</UpLabel>
                 <DownLabel>Rolês</DownLabel>
               </ColumnBoxMiddle>
               <ColumnBoxRight>
-                <UpLabel>15</UpLabel>
+                <UpLabel>00</UpLabel>
                 <DownLabel>Vitórias</DownLabel>
               </ColumnBoxRight>
             </FollowersBox>

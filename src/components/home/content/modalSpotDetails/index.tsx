@@ -11,6 +11,10 @@ import {
   AddressButtonLabel,
   Title,
   TitleBox,
+  Header,
+  HeaderBoxLeft,
+  HeaderTitle,
+  HeaderBoxRight,
 } from './styles';
 
 import { MaterialIcons } from '@expo/vector-icons';
@@ -20,6 +24,7 @@ import {
   Linking,
   Platform,
   ScrollView,
+  TouchableOpacity,
   TouchableOpacityProps,
 } from 'react-native';
 import { ISpotDetailsPage } from '../../../../screens/Home';
@@ -72,14 +77,20 @@ const ModalSpotDetails = ({ id, ...rest }: Props) => {
 
   return (
     <>
-      <ButtonBack {...rest}>
-        <MaterialIcons
-          name={'close'}
-          size={18}
-          color={COLORS.SECONDARY_BUTTON}
-        />
-      </ButtonBack>
       <ScrollView style={{ flex: 1 }}>
+        <Header>
+          <HeaderBoxLeft>
+            <TouchableOpacity {...rest}>
+              <MaterialIcons name={'arrow-back'} size={24} />
+            </TouchableOpacity>
+          </HeaderBoxLeft>
+          <HeaderTitle>{spot?.name}</HeaderTitle>
+          <HeaderBoxRight>
+            <TouchableOpacity>
+              <MaterialIcons name={'chat-bubble-outline'} size={24} />
+            </TouchableOpacity>
+          </HeaderBoxRight>
+        </Header>
         <ScrollView
           style={{ flex: 1, paddingLeft: 1 }}
           horizontal

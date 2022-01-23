@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from './styles';
-import { Alert, Modal } from 'react-native';
+import { Alert, Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import { Modalize } from 'react-native-modalize';
 import { useTheme } from 'styled-components';
@@ -15,6 +16,7 @@ import Geocoder from 'react-native-geocoding';
 import SetCityModal from '../../components/Modals/SetCityModal';
 import { AppStore } from '../../store/types';
 import { SetSpots } from '../../store/ducks/spots/actions';
+import theme from '../../theme';
 
 const customMap = [
   {
@@ -203,6 +205,7 @@ const Home = () => {
   const [modalUserCityVisible, setModalUserCityVisible] = useState<boolean>(
     formatted_city ? false : true
   );
+
   const [selectedSpot, setSelectedSpot] = useState<string>('');
   const { COLORS } = useTheme();
   const [origin, setOrigin] = useState<any>();
@@ -224,10 +227,9 @@ const Home = () => {
         setSpots(data);
       })
       .catch((e) =>
-        console.log ('Consulta', 'Não foi possível realizar a consulta.', e)
+        console.log('Consulta', 'Não foi possível realizar a consulta.', e)
       );
   }
-
 
   useEffect(() => {
     fetchSpots();
@@ -325,6 +327,10 @@ const Home = () => {
           <SetCityModal setModalUserCityVisible={setModalUserCityVisible} />
         </Modal>
 
+        <TouchableOpacity style={styles.buttonActionsBox}>
+          <MaterialIcons name="games" size={24} color="#FFF" />
+        </TouchableOpacity>
+
         <Modalize
           ref={() => modal}
           modalStyle={{
@@ -346,5 +352,20 @@ const Home = () => {
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  buttonActionsBox: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    bottom: 216,
+    right: 16,
+    zIndex: 999,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: theme.COLORS.PRIMARY_900,
+  },
+});
 
 export default Home;

@@ -94,6 +94,7 @@ export const UpLabel = styled.Text`
   font-family: ${({ theme }) => theme.FONTS.BOLD_TEXT};
   color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
 `;
+
 export const DownLabel = styled.Text`
   font-size: 12px;
   font-family: ${({ theme }) => theme.FONTS.TEXT};
@@ -169,24 +170,4 @@ export const UserDescription = styled.Text`
   font-family: ${({ theme }) => theme.FONTS.TEXT};
   color: ${({ theme }) => theme.COLORS.DESCRIPTION};
   margin: 16px;
-`;
-
-export const Button = styled(TouchableOpacity)`
-  position: absolute;
-  align-self: center;
-  bottom: 8px;
-  height: 56px;
-  width: 92%;
-  padding-left: 16px;
-  justify-content: center;
-  background-color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
-`;
-
-
-export const ButtonLabel = styled.Text`
-  font-size: 12px;
-  text-transform: uppercase;
-  font-family: ${({ theme }) => theme.FONTS.BOLD_TEXT};
-  color: ${({ theme }) => theme.COLORS.SECONDARY_BUTTON};
-  z-index: 9999;
 `;
