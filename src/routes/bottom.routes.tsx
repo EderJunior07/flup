@@ -5,6 +5,7 @@ import TabComponent from '../components/bottomConfig/Tab';
 import HomeStack from './stackHome/home.routes';
 import PerfilStack from './stackPerfil/perfil.routes';
 import Shop from '../screens/Shop';
+import Tips from '../screens/tips';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,10 +42,10 @@ const BottomNav = () => {
           }}
         />
          <Tab.Screen
-          name="Shop"
-          component={Shop}
+          name="Dicas"
+          component={Tips}
           options={{
-            tabBarButton: (props) => <TabComponent label="Comprar" {...props} />,
+            tabBarButton: (props) => <TabComponent label="Dicas" {...props} />,
           }}
         />
         <Tab.Screen

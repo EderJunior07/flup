@@ -21,7 +21,7 @@ const Background = styled(Transitioning.View)`
 
 function Tab({ label, accessibilityState, onPress }: any) {
   const {
-    user: { id, photoUrl, name},
+    user: { id, photoUrl, name },
   } = useSelector((state: AppStore) => state);
 
   const focused = accessibilityState.selected;
@@ -59,15 +59,16 @@ function Tab({ label, accessibilityState, onPress }: any) {
             }}
           />
         ) : label === 'Explorar' ? (
+          <MaterialIcons name={'public'} size={24} color="#000" />
+        ) : label === 'Dicas' ? (
+          // <Image
+          //   style={{ width: 24, height: 24 }}
+          //   source={require('../../../assets/images/shopping_bag.png')}
+          // />
           <MaterialIcons
             name={'local-fire-department'}
             size={24}
             color="#000"
-          />
-        ) : label === 'Comprar' ? (
-          <Image
-            style={{ width: 24, height: 24 }}
-            source={require('../../../assets/images/shopping_bag.png')}
           />
         ) : (
           <Image

@@ -328,7 +328,7 @@ const Home = () => {
         </Modal>
 
         <TouchableOpacity style={styles.buttonActionsBox}>
-          <MaterialIcons name="games" size={24} color="#FFF" />
+          <MaterialIcons name="camera-alt" size={24} color="#FFF" />
         </TouchableOpacity>
 
         <Modalize
@@ -348,6 +348,7 @@ const Home = () => {
         >
           <Content city={cityUser} loading={loadingCity} />
         </Modalize>
+          
       </Container>
     </>
   );

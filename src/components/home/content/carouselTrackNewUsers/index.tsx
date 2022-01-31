@@ -4,9 +4,10 @@ import firestore from '@react-native-firebase/firestore';
 
 import { Container, Name } from './styles';
 import { IUser } from '../../../../services/firestore/types/user';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SetNewUsersAtTheCity } from '../../../../store/ducks/newUsersAtCity/actions';
 import ModalPerfilNewUsers from './modalPerfilNewUsers';
+import { AppStore } from '@src/store/types';
 
 interface ICarouselTrackNewUsers {
   city: string;
@@ -14,6 +15,10 @@ interface ICarouselTrackNewUsers {
 
 const CarouselTrackNewUsers = ({ city }: ICarouselTrackNewUsers) => {
   const dispatch = useDispatch();
+
+  const {
+    user: { id },
+  } = useSelector((state: AppStore) => state);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [userSelected, setSelectedUser] = useState('');
@@ -37,17 +42,17 @@ const CarouselTrackNewUsers = ({ city }: ICarouselTrackNewUsers) => {
 
     let response: any = [];
 
-   
     snapshots.forEach((doc) => {
       response.push(doc.data());
       return doc.data();
     });
 
-    dispatch(SetNewUsersAtTheCity([response]));
+    const responseFilted = response.filter((a: any) => a.id !== id);
 
+    dispatch(SetNewUsersAtTheCity([responseFilted]));
 
-    setNewUsersAtTheCity(response);
-    return response;
+    setNewUsersAtTheCity(responseFilted);
+    return responseFilted;
   };
 
   useEffect(() => {
@@ -79,7 +84,13 @@ const CarouselTrackNewUsers = ({ city }: ICarouselTrackNewUsers) => {
         >
           {newUsersAtTheCity &&
             newUsersAtTheCity.map((data: IUser[] | any, index: number) => (
-              <Container activeOpacity={1}  onPress={() => handleModalUserSelected(data.id)} key={index}>
+              <Container
+                activeOpacity={1}
+                onPress={() =>
+                  handleModalUserSelected(data.id !== id ? data.id : '')
+                }
+                key={index}
+              >
                 <Image
                   style={{
                     width: 120,
