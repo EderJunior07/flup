@@ -1,6 +1,15 @@
-import React from 'react';
-import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  FlatList,
+  Image,
+  Modal,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import firestore from '@react-native-firebase/firestore';
 
 import {
   Container,
@@ -11,29 +20,90 @@ import {
   HeaderBoxRight,
   HeaderTitle,
   TitleContainer,
-  LocationLabel,
+  HeadlineLabel,
   ContainerOfTitle,
   HeadlineTitleBox,
+  LabelContainerOfTitle,
 } from './styles';
+
 import TrackAllSpots from '../../components/home/content/trackAllSpots';
 import { useTheme } from 'styled-components/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppStore } from '@src/store/types';
+import { IUser } from '@src/services/firestore/types/user';
+import ModalPerfilNewUsers from '../../components/home/content/carouselTrackNewUsers/modalPerfilNewUsers';
 
 const Explore = () => {
+  const dispatch = useDispatch();
   const { COLORS } = useTheme();
+  const {
+    user: { id },
+  } = useSelector((state: AppStore) => state);
+
+  //MODALS
+  const [profileModal, setProfileModal] = useState(false);
+
+  const [userSelected, setSelectedUser] = useState('');
+
+  const [allFlupers, setAllFlupers] = useState<IUser[]>([]);
+  const [flupHasMembers, setFlupHasMembers] = useState(false);
+
+  const trackMembers = async () => {
+    const userCollectionRef = firestore().collection('USER');
+    const snapshots = await userCollectionRef.where('status', '==', 1).get();
+
+    if (snapshots.empty) {
+      console.log('No matching documents for TRACK NEW USERS.');
+      setFlupHasMembers(false);
+      return;
+    }
+    setFlupHasMembers(true);
+
+    let response: any = [];
+
+    snapshots.forEach((doc) => {
+      response.push(doc.data());
+      return doc.data();
+    });
+
+    const responseFilted = response.filter((a: any) => a.id !== id);
+
+    // dispatch(SetNewUsersAtTheCity([responseFilted]));
+
+    setAllFlupers(responseFilted);
+    return responseFilted;
+  };
+
+  useEffect(() => {
+    trackMembers();
+  }, []);
+
+  function handleModalUserSelected(id: string) {
+    setProfileModal(true);
+    setSelectedUser(id);
+  }
 
   return (
     <>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={profileModal}
+        onRequestClose={() => {
+          setProfileModal(!profileModal);
+        }}
+      >
+        <ModalPerfilNewUsers id={userSelected} />
+      </Modal>
       <Container>
         <Header>
           <HeaderTitle>Explorar</HeaderTitle>
-          <HeaderBoxRight>
-            <TouchableOpacity>
-              <MaterialIcons name={'local-fire-department'} size={24} />
-            </TouchableOpacity>
-          </HeaderBoxRight>
         </Header>
 
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 100 }}
+        >
           <ContainerHeadline>
             <View
               style={{
@@ -50,7 +120,7 @@ const Explore = () => {
               />
 
               <HeadlineTitleBox>
-                <LocationLabel>Flup</LocationLabel>
+                <HeadlineLabel>Flup</HeadlineLabel>
               </HeadlineTitleBox>
             </View>
 
@@ -72,16 +142,56 @@ const Explore = () => {
 
           <ContainerOfTitle>
             <TitleContainer>
-              <LocationLabel>Spots</LocationLabel>
+              <LabelContainerOfTitle>Spots</LabelContainerOfTitle>
             </TitleContainer>
           </ContainerOfTitle>
+
           <TrackAllSpots />
 
           <ContainerOfTitle>
             <TitleContainer>
-              <LocationLabel>Flupers</LocationLabel>
+              <LabelContainerOfTitle>Flupers</LabelContainerOfTitle>
             </TitleContainer>
           </ContainerOfTitle>
+
+          <FlatList
+            data={allFlupers}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(_, index) => index.toString()}
+            renderItem={({ item }) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => handleModalUserSelected(item.id)}
+                  activeOpacity={0.9}
+                  style={{
+                    width: 132,
+                    borderRadius: 132,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: 16,
+                    marginLeft: 8,
+                  }}
+                >
+                  <Image
+                    source={{ uri: item.photoUrl }}
+                    style={{
+                      width: 132,
+                      height: 132,
+                      borderRadius: 132,
+                      resizeMode: 'cover',
+                      marginBottom: 8,
+                    }}
+                  />
+                  <Text
+                    style={{ fontFamily: 'DMSans_Medium', textAlign: 'center' }}
+                  >
+                    {item.name}
+                  </Text>
+                </TouchableOpacity>
+              );
+            }}
+          />
         </ScrollView>
       </Container>
     </>

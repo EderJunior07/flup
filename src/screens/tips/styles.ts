@@ -41,19 +41,6 @@ export const HeaderTitle = styled.Text`
   color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
 `;
 
-export const ContainerHeadline = styled.View`
-  width: 100%;
-  height: 456px;
-  border-bottom-width: 1px;
-  border-color: ${({ theme }) => theme.COLORS.BORDER_COLOR};
-`;
-
-export const DescriptionHeadline = styled.Text`
-  font-size: 14px;
-  text-align: justify;
-  font-family: ${({ theme }) => theme.FONTS.TEXT};
-  color: ${({ theme }) => theme.COLORS.DESCRIPTION};
-`;
 
 export const ContainerOfTitle = styled.View`
   width: 100%;
@@ -81,25 +68,4 @@ export const TitleContainer = styled.View`
   height: 36px;
   border-width: 1px;
   background-color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
-`;
-
-export const HeadlineLabel = styled.Text`
-  font-size: 12px;
-  text-transform: uppercase;
-  font-family: ${({ theme }) => theme.FONTS.BOLD_TEXT};
-  color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
-`;
-
-export const HeadlineTitleBox = styled.View`
-  position: absolute;
-  right: 8px;
-  bottom: 16px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  min-width: 112px;
-  padding: 0 8px;
-  height: 36px;
-  border-width: 1px;
-  background-color: ${({ theme }) => theme.COLORS.SECONDARY_BUTTON};
 `;

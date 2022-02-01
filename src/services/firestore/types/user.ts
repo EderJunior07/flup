@@ -2,7 +2,7 @@ export interface IUser {
   id: string;
   name: string | null;
   description: string;
-  photoUrl: string | null;
+  photoUrl: string;
   phoneNumber: null;
   status: IStatus;
   formatted_city: string;

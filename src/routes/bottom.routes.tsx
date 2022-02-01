@@ -6,6 +6,7 @@ import HomeStack from './stackHome/home.routes';
 import PerfilStack from './stackPerfil/perfil.routes';
 import Shop from '../screens/Shop';
 import Tips from '../screens/tips';
+import TipsStack from './stackTips/tips.routes';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +21,7 @@ const BottomNav = () => {
           headerShown: false,
           tabBarStyle: {
             backgroundColor: '#FFF',
-            height: 72,
+            height: 64,
             borderTopColor: '#DDD',
             elevation: 15
           }
@@ -43,7 +44,7 @@ const BottomNav = () => {
         />
          <Tab.Screen
           name="Dicas"
-          component={Tips}
+          component={TipsStack}
           options={{
             tabBarButton: (props) => <TabComponent label="Dicas" {...props} />,
           }}

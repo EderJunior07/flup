@@ -164,7 +164,7 @@ const ModalPerfilNewUsers = ({ id }: IModalPerfilNewUsers) => {
                 style={{ marginRight: 8 }}
               />
               <LabelWhite>
-                {userSelected && userSelected?.base_at_skate_type}
+                {userSelected && userSelected?.base_at_skate_type[0]}
               </LabelWhite>
             </LabelContainer>
           </AllBlackContainer>
