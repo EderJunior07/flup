@@ -154,25 +154,12 @@ const Explore = () => {
                   size={14}
                   color={COLORS.SECONDARY_BUTTON}
                 />{' '}
-                Spots
+                Ao redor do mundo
               </LabelContainerOfTitle>
             </TitleContainer>
           </ContainerOfTitle>
 
           <TrackAllSpots />
-
-          <ContainerOfTitle>
-            <TitleContainer>
-              <LabelContainerOfTitle>
-                <MaterialIcons
-                  name={'public'}
-                  size={14}
-                  color={COLORS.SECONDARY_BUTTON}
-                />{' '}
-                Flupers
-              </LabelContainerOfTitle>
-            </TitleContainer>
-          </ContainerOfTitle>
 
           <FlatList
             data={allFlupers}

@@ -81,7 +81,6 @@ export const TitleContainer = styled.View`
   min-width: 112px;
   padding: 0 8px;
   height: 36px;
-  border-width: 1px;
   background-color: ${({ theme }) => theme.COLORS.PRIMARY_900};
 `;
 
