@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import {
   FlatList,
   Image,
+  Modal,
   RefreshControl,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -16,11 +18,16 @@ import {
   HeaderBoxRight,
   HeaderTitle,
   LabelContainerOfTitle,
+  TipsTitleContainer,
+  TipsTitleLabel,
   TitleContainer,
 } from './styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppStore } from '../../store/types';
 import { useTheme } from 'styled-components';
+import { RectButton } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
+import ModalTipDetails from '../../components/Tips/ModalTipDetails';
 
 export interface ITips {
   id: string;
@@ -33,17 +40,15 @@ export interface ITips {
 }
 
 const Tips = () => {
-  const dispatch = useDispatch();
   const { COLORS } = useTheme();
-  const {
-    user: { id },
-  } = useSelector((state: AppStore) => state);
 
   const [tipsType, setTypsType] = useState<
     'Básico' | 'Intermediário' | 'Avançado'
   >('Básico');
   const [hasTips, setHasTips] = useState(false);
   const [allTips, setAllTips] = useState<ITips[]>([]);
+  const [tipSelected, setTipSelected] = useState<string>('');
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -76,8 +81,26 @@ const Tips = () => {
     trackTips();
   }, []);
 
+  const handleTipSelected = (id: string) => {
+    setTipSelected(id);
+    setModalVisible(true);
+  };
+
   return (
     <>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <ModalTipDetails
+          setModalTipDetailsVisible={setModalVisible}
+          id={tipSelected}
+        />
+      </Modal>
       <Container>
         <Header>
           <HeaderTitle>Flup Dicas</HeaderTitle>
@@ -110,13 +133,16 @@ const Tips = () => {
           renderItem={({ item }) => {
             return (
               <TouchableOpacity
-                // onPress={() => handleModalUserSelected(item.id)}
-                activeOpacity={0.9}
+                activeOpacity={1}
+                onPress={() => handleTipSelected(item.id)}
                 style={{
-                  flex: 1,
-                  borderRadius: 132,
+                  width: '100%',
+                  minHeight: 253,
+                  zIndex: 999,
                   justifyContent: 'center',
                   alignItems: 'center',
+
+                  marginBottom: 8,
                 }}
               >
                 <Image
@@ -125,9 +151,12 @@ const Tips = () => {
                     width: '100%',
                     height: 324,
                     resizeMode: 'cover',
-                    marginBottom: 8,
                   }}
                 />
+
+                <TipsTitleContainer>
+                  <TipsTitleLabel>{item.title}</TipsTitleLabel>
+                </TipsTitleContainer>
               </TouchableOpacity>
             );
           }}

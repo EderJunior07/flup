@@ -4,9 +4,8 @@ import Explore from '@screens/Explore';
 import TabComponent from '../components/bottomConfig/Tab';
 import HomeStack from './stackHome/home.routes';
 import PerfilStack from './stackPerfil/perfil.routes';
-import Shop from '../screens/Shop';
-import Tips from '../screens/tips';
 import TipsStack from './stackTips/tips.routes';
+import ExploreStack from './stackExplore/explore.routes';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +36,7 @@ const BottomNav = () => {
         />
         <Tab.Screen
           name="Explore"
-          component={Explore}
+          component={ExploreStack}
           options={{
             tabBarButton: (props) => <TabComponent label="Explorar" {...props} />,
           }}

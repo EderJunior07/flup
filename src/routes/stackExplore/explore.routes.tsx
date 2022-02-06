@@ -8,7 +8,7 @@ import Explore from '../../screens/Explore';
 enableScreens();
 const {Navigator, Screen} = createNativeStackNavigator();
 
-const DiscoverStack = () => {
+const ExploreStack = () => {
  
 
   return (
@@ -20,4 +20,4 @@ const DiscoverStack = () => {
   );
 };
 
-export default DiscoverStack;
+export default ExploreStack;

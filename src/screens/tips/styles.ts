@@ -41,7 +41,6 @@ export const HeaderTitle = styled.Text`
   color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
 `;
 
-
 export const ContainerOfTitle = styled.View`
   width: 100%;
   flex-direction: row;
@@ -68,4 +67,22 @@ export const TitleContainer = styled.View`
   height: 36px;
   border-width: 1px;
   background-color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
+`;
+
+export const TipsTitleContainer = styled.View`
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  position: absolute;
+  left: 8px;
+  bottom: 16px;
+  height: 48px;
+  padding-horizontal: 8px;
+  background-color: ${({ theme }) => theme.COLORS.SECONDARY_BUTTON};
+`;
+
+export const TipsTitleLabel = styled.Text`
+  font-size: 14px;
+  font-family: ${({ theme }) => theme.FONTS.MEDIUM_TEXT};
+  color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
 `;

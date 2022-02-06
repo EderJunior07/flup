@@ -34,7 +34,6 @@ import { IUser } from '@src/services/firestore/types/user';
 import ModalPerfilNewUsers from '../../components/home/content/carouselTrackNewUsers/modalPerfilNewUsers';
 
 const Explore = () => {
-  const dispatch = useDispatch();
   const { COLORS } = useTheme();
   const {
     user: { id },
@@ -97,7 +96,15 @@ const Explore = () => {
       </Modal>
       <Container>
         <Header>
-          <HeaderTitle>Explorar</HeaderTitle>
+          <HeaderTitle>
+            {' '}
+            <MaterialIcons
+              name={'public'}
+              size={14}
+              color={COLORS.PRIMARY_BUTTON}
+            />{' '}
+            Explorar
+          </HeaderTitle>
         </Header>
 
         <ScrollView
@@ -110,15 +117,14 @@ const Explore = () => {
                 flex: 2,
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: COLORS.PRIMARY_900,
               }}
             >
-              <MaterialIcons
-                name={'local-fire-department'}
-                size={36}
-                color={COLORS.SECONDARY_BUTTON}
+              <Image
+                style={{ flex: 1, width: '100%', resizeMode: 'cover' }}
+                source={{
+                  uri: 'https://images.pexels.com/photos/6828662/pexels-photo-6828662.png?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+                }}
               />
-
               <HeadlineTitleBox>
                 <HeadlineLabel>Flup</HeadlineLabel>
               </HeadlineTitleBox>
@@ -142,7 +148,14 @@ const Explore = () => {
 
           <ContainerOfTitle>
             <TitleContainer>
-              <LabelContainerOfTitle>Spots</LabelContainerOfTitle>
+              <LabelContainerOfTitle>
+                <MaterialIcons
+                  name={'public'}
+                  size={14}
+                  color={COLORS.SECONDARY_BUTTON}
+                />{' '}
+                Spots
+              </LabelContainerOfTitle>
             </TitleContainer>
           </ContainerOfTitle>
 
@@ -150,7 +163,14 @@ const Explore = () => {
 
           <ContainerOfTitle>
             <TitleContainer>
-              <LabelContainerOfTitle>Flupers</LabelContainerOfTitle>
+              <LabelContainerOfTitle>
+                <MaterialIcons
+                  name={'public'}
+                  size={14}
+                  color={COLORS.SECONDARY_BUTTON}
+                />{' '}
+                Flupers
+              </LabelContainerOfTitle>
             </TitleContainer>
           </ContainerOfTitle>
 

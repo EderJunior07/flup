@@ -68,6 +68,8 @@ export const ContainerOfTitle = styled.View`
 export const LabelContainerOfTitle = styled.Text`
   font-size: 12px;
   text-transform: uppercase;
+  align-items: center;
+  justify-content: center;
   font-family: ${({ theme }) => theme.FONTS.BOLD_TEXT};
   color: ${({ theme }) => theme.COLORS.SECONDARY_BUTTON};
 `;
@@ -80,7 +82,7 @@ export const TitleContainer = styled.View`
   padding: 0 8px;
   height: 36px;
   border-width: 1px;
-  background-color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
+  background-color: ${({ theme }) => theme.COLORS.PRIMARY_900};
 `;
 
 export const HeadlineLabel = styled.Text`
