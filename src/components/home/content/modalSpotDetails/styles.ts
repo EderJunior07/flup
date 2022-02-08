@@ -57,11 +57,13 @@ export const Description = styled.Text`
 
 export const AddressButton = styled(TouchableOpacity)`
   position: absolute;
+  flex-direction: row;
   align-self: center;
-  bottom: 8px;
+  align-items: center;
+  justify-content: center;
+  bottom: 0px;
   height: 56px;
-  width: 92%;
-  padding-left: 16px;
+  width: 100%;
   justify-content: center;
   background-color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
 `;

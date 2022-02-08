@@ -15,12 +15,12 @@ export const Container = styled(TextInput).attrs<Props>(({ theme, type }) => ({
   height: 56px;
   background-color: transparent;
   padding: 7px 0;
-  padding-left: 20px;
+  padding-left: 16px;
   margin-bottom: 16px;
 
   ${({ theme, type }) => css`
     font-family: ${theme.FONTS.TEXT};
-    border: 1px solid ${theme.COLORS.SHAPE};
-    color: ${theme.COLORS.PRIMARY_BUTTON};
+    border: 1px solid ${theme.COLORS.BORDER_COLOR2};
+    color: ${theme.COLORS.ICONS_PRIMARY_COLOR};
   `}
 `;

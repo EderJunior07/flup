@@ -84,7 +84,7 @@ const ModalSpotDetails = ({ id, ...rest }: Props) => {
               <MaterialIcons name={'arrow-back'} size={24} />
             </TouchableOpacity>
           </HeaderBoxLeft>
-          <HeaderTitle>{spot?.name}</HeaderTitle>
+          <HeaderTitle>{spot?.formatted_city}</HeaderTitle>
           <HeaderBoxRight>
             <TouchableOpacity>
               <MaterialIcons name={'chat-bubble-outline'} size={24} />
@@ -117,14 +117,7 @@ const ModalSpotDetails = ({ id, ...rest }: Props) => {
           <Description>{spot?.description}</Description>
         </HeaderContainer>
 
-        <LocationContainer>
-          <MaterialIcons
-            name="location-on"
-            size={24}
-            color={COLORS.SECONDARY_BUTTON}
-          />
-          <LocationLabel>{spot?.formatted_city}</LocationLabel>
-        </LocationContainer>
+      
         <TitleBox>
           <MaterialIcons name="supervised-user-circle" size={28} />
           <Title>Agora na pista</Title>
@@ -132,6 +125,11 @@ const ModalSpotDetails = ({ id, ...rest }: Props) => {
       </ScrollView>
       <AddressButton onPress={handleGoogleMap}>
         <AddressButtonLabel>Como chegar?</AddressButtonLabel>
+        <MaterialIcons
+          name="location-on"
+          size={24}
+          color={COLORS.SECONDARY_BUTTON}
+        />
       </AddressButton>
     </>
   );

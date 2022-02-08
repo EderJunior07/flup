@@ -217,6 +217,7 @@ const Home = () => {
   function fetchSpots() {
     firestore()
       .collection('SPOTS')
+      .where('status', '==', 1)
       .get()
       .then((response) => {
         const data = response.docs.map((doc, index) => {
@@ -226,6 +227,7 @@ const Home = () => {
           };
         }) as ISpotDetailsPage[];
         dispatch(SetSpots(data));
+        console.log(data)
         setSpots(data);
       })
       .catch((e) =>
@@ -284,7 +286,7 @@ const Home = () => {
           showsUserLocation
           showsCompass
           minZoomLevel={12}
-          maxZoomLevel={12}
+          maxZoomLevel={15}
           mapType="standard"
           customMapStyle={customMap}
         >
@@ -332,15 +334,18 @@ const Home = () => {
         <Modal
           animationType="fade"
           transparent={false}
-          visible={true}
+          visible={openModalNewSpot}
           onRequestClose={() => {
             setOpenModalNewSpot(!openModalNewSpot);
           }}
         >
-          <SetModalNewSpot setOpenModalNewSpot={setOpenModalNewSpot}/>
+          <SetModalNewSpot setOpenModalNewSpot={setOpenModalNewSpot} />
         </Modal>
 
-        <TouchableOpacity style={styles.buttonActionsBox}>
+        <TouchableOpacity
+          style={styles.buttonActionsBox}
+          onPress={() => setOpenModalNewSpot(true)}
+        >
           <MaterialIcons name="camera-alt" size={24} color="#FFF" />
         </TouchableOpacity>
 

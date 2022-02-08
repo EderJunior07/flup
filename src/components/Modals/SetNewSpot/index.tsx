@@ -5,36 +5,34 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import firestore from '@react-native-firebase/firestore';
 
+import storage, { firebase } from '@react-native-firebase/storage';
+
 import { MaterialIcons } from '@expo/vector-icons';
+
+import * as ImagePicker from 'expo-image-picker';
 
 import {
   ButtonLabel,
-  Container,
   Description,
   Form,
   Header,
   HeaderBoxLeft,
-  HeaderBoxRight,
-  HeaderTitle,
   InputGroup,
   InputGroupHeader,
   Label,
+  Label2,
   MaxCharacters,
   MessageContainer,
   Title,
-  ToggleBox,
 } from './styles';
 import Input from '../../../components/input';
 import {
   ActivityIndicator,
   Alert,
   Image,
-  KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
-  View,
 } from 'react-native';
 import { useTheme } from 'styled-components/native';
 
@@ -44,41 +42,87 @@ interface ISetModalNewSpot {
 
 const SetModalNewSpot = ({ setOpenModalNewSpot }: ISetModalNewSpot) => {
   const {
-    user: { id, name, photoUrl, formatted_city, description },
+    user: { id },
   } = useSelector((state: AppStore) => state);
 
   const { COLORS } = useTheme();
-  const dispatch = useDispatch();
 
-  const [biography, setBiography] = useState('');
-
-  const [actives, setActives] = useState<any>([]);
+  const [spotBanner, setSpotBanner] = useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [latitude, setLatitude] = useState<any>(0);
+  const [longitude, setLongitude] = useState<any>(0);
 
   const [loading, setLoading] = useState(false);
 
+  async function handleImagePicker() {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (status === 'granted') {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        aspect: [4, 4],
+      });
+
+      if (!result.cancelled) {
+        setSpotBanner(result.uri);
+      }
+    }
+  }
+
   const handleSaveDetails = async () => {
-    if (biography.length < 1) {
-      Alert.alert('Biografia', 'Preencha sua biografia!');
+    if (name.length < 1) {
+      Alert.alert('Nome', 'Preencha o nome da pista!');
       return;
     }
 
-    if (actives.length < 1) {
-      Alert.alert('Base', 'Preencha sua base para continuar!');
+    if (description.length < 1) {
+      Alert.alert('Descrição', 'Preencha uma breve descrição do local!');
+      return;
+    }
+
+    if (latitude.length < 5) {
+      Alert.alert('Latitude', 'Preencha uma latitude válida!');
+      return;
+    }
+    if (longitude.length < 5) {
+      Alert.alert('Longitude', 'Preencha uma longitude válida!');
       return;
     }
 
     setLoading(true);
+
+    const reference = storage().ref(`/users_photos/${id}.png`);
+    await reference.putFile(spotBanner);
+    const photo_url = await reference.getDownloadURL();
+
     await firestore()
       .collection('SPOTS')
-      .doc(id)
-      .update({ description: biography, base_at_skate_type: actives })
+      .add({
+        name: name,
+        description: description,
+        spotPhotos: [photo_url],
+        location: new firebase.firestore.GeoPoint(
+          Number(latitude),
+          Number(longitude)
+        ),
+        status: 2,
+      })
       .then(() => {
         console.log('SPOT UPLOADED');
+        Alert.alert(
+          'Enviado com Sucesso',
+          'Nós agradecemos por colaborar com a comunidade Flup! Vamos analisar seu envio e logo logo retornaremos uma resposta.'
+        );
         setLoading(false);
       })
       .catch((e) => {
+        Alert.alert('Lamentamos', 'Não foi possivel enviar o pico...');
         setLoading(false);
         console.log(e);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -87,90 +131,100 @@ const SetModalNewSpot = ({ setOpenModalNewSpot }: ISetModalNewSpot) => {
       <Header>
         <HeaderBoxLeft>
           <TouchableOpacity>
-            <MaterialIcons name={'arrow-back'} size={24} />
+            <MaterialIcons
+              name={'arrow-back'}
+              size={24}
+              onPress={() => setOpenModalNewSpot(false)}
+            />
           </TouchableOpacity>
         </HeaderBoxLeft>
-
-        <HeaderBoxRight>
-          <TouchableOpacity>
-            <Text>?</Text>
-          </TouchableOpacity>
-        </HeaderBoxRight>
       </Header>
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-        <ScrollView
-          contentContainerStyle={{ paddingBottom: 100 }}
-          style={{ flex: 1 }}
-        >
-          <MessageContainer>
+      {/* <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding"> */}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 100 }}
+        style={{ flex: 1 }}
+      >
+        <MessageContainer>
+          <TouchableOpacity
+            style={{ width: '100%', height: 432 }}
+            onPress={handleImagePicker}
+          >
             <Image
               source={{
-                uri: 'https://www.ochch.org/wp-content/themes/mast/images/empty-photo.jpg',
+                uri: spotBanner
+                  ? spotBanner
+                  : 'https://www.ochch.org/wp-content/themes/mast/images/empty-photo.jpg',
               }}
-              style={{ width: '100%', height: 232 }}
+              style={{ flex: 1, resizeMode: 'cover' }}
             />
-            <Title>Cadastrar pico</Title>
-            <Description>
-              Falta só mais um pouquinho para você dar seus rolês por aí,
-              complete seu perfil.
-            </Description>
-          </MessageContainer>
+          </TouchableOpacity>
+          <Title>Achou um pico?</Title>
+          <Description>
+            Capture para que mais pessoas possam visita-lo.
+          </Description>
+        </MessageContainer>
 
-          <Form>
-            <InputGroup>
+        <Form>
+          <InputGroup>
+            <InputGroupHeader>
               <Label>Nome</Label>
+              <MaxCharacters>{name.length} de 40 caracteres</MaxCharacters>
+            </InputGroupHeader>
 
-              <Input
-                onChangeText={setBiography}
-                value={biography}
-                maxLength={60}
-                placeholder="Qual o nome da pista?"
-                selectionColor={COLORS.PRIMARY_900}
-                style={{ height: 56 }}
-              />
-            </InputGroup>
+            <Input
+              onChangeText={setName}
+              value={name}
+              maxLength={40}
+              placeholder="Qual o nome da pista?"
+              selectionColor={COLORS.PRIMARY_900}
+              style={{ height: 56 }}
+            />
+          </InputGroup>
 
-            <InputGroup>
-              <InputGroupHeader>
-                <Label>Breve Descrição</Label>
-                <MaxCharacters>
-                  {biography.length} de 60 caracteres
-                </MaxCharacters>
-              </InputGroupHeader>
-              <Input
-                onChangeText={setBiography}
-                value={biography}
-                maxLength={60}
-                placeholder={'Descreva brevemente sobre o pico'}
-                style={{ height: 56 }}
-              />
-            </InputGroup>
+          <InputGroup>
+            <InputGroupHeader>
+              <Label>Breve Descrição</Label>
+              <MaxCharacters>
+                {description.length} de 60 caracteres
+              </MaxCharacters>
+            </InputGroupHeader>
+            <Input
+              onChangeText={setDescription}
+              value={description}
+              maxLength={60}
+              placeholder={'Descreva brevemente sobre o pico'}
+              style={{ height: 56 }}
+            />
+          </InputGroup>
 
-            <InputGroup>
-              <InputGroupHeader>
-                <Label>Localização Exata</Label>
-                <Label>?</Label>
-              </InputGroupHeader>
-              <Input
-                onChangeText={setBiography}
-                value={biography}
-                maxLength={60}
-                placeholder={'Latitude'}
-                placeholderTextColor={'#dadada'}
-                style={{ height: 56 }}
-              />
-              <Input
-                onChangeText={setBiography}
-                value={biography}
-                maxLength={60}
-                placeholder={'Longitude'}
-                placeholderTextColor={'#dadada'}
-                style={{ height: 56 }}
-              />
-            </InputGroup>
-          </Form>
-        </ScrollView>
-      </KeyboardAvoidingView>
+          <InputGroup>
+            <InputGroupHeader style={{ marginBottom: 16 }}>
+              <Label>Localização exata</Label>
+              <Label>?</Label>
+            </InputGroupHeader>
+            <Label2>Latitude</Label2>
+            <Input
+              onChangeText={setLatitude}
+              value={latitude}
+              keyboardType="numeric"
+              placeholder={'Latitude'}
+              placeholderTextColor={'#dadada'}
+              style={{ height: 56 }}
+            />
+            <Label2>Longitude</Label2>
+            <Input
+              onChangeText={setLongitude}
+              value={longitude}
+              keyboardType="numeric"
+              placeholder={'Longitude'}
+              placeholderTextColor={'#dadada'}
+              style={{ height: 56 }}
+            />
+          </InputGroup>
+        </Form>
+      </ScrollView>
+      {/* </KeyboardAvoidingView> */}
       <TouchableOpacity
         onPress={handleSaveDetails}
         style={[
@@ -208,10 +262,9 @@ const styles = StyleSheet.create({
   buttonConfirm: {
     position: 'absolute',
     alignSelf: 'center',
-    bottom: 8,
+    bottom: 0,
     height: 56,
-    width: '92%',
-    paddingLeft: 16,
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },

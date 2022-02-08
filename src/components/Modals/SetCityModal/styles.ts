@@ -43,10 +43,9 @@ export const ButtonBack = styled(TouchableOpacity)`
 export const AddressButton = styled(TouchableOpacity)`
   position: absolute;
   align-self: center;
-  bottom: 16px;
+  bottom: 0px;
   height: 56px;
-  width: 82%;
-  padding-left: 16px;
+  width: 100%;
   justify-content: center;
   background-color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
 `;

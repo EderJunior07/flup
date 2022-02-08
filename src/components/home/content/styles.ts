@@ -21,7 +21,7 @@ export const LocationContainer = styled.View`
   min-width: 112px;
   padding: 0 16px;
   height: 42px;
-  background-color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
+  background-color: ${({ theme }) => theme.COLORS.PRIMARY_900};
 `;
 
 export const LocationLabel = styled.Text`

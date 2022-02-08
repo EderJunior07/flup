@@ -71,18 +71,29 @@ export const Description = styled.Text`
 
 export const Form = styled.View`
   width: 100%;
-  margin-top: 8px;
+  margin-top: 24px;
   padding: 16px;
 `;
 
 export const Label = styled.Text`
-  margin-bottom: 12px;
-  font-size: 14px;
+  margin-bottom: 8px;
+  font-size: 12px;
   text-transform: uppercase;
 
   ${({ theme }) => css`
     font-family: ${theme.FONTS.BOLD_TEXT};
     color: ${theme.COLORS.PRIMARY_BUTTON};
+  `}
+`;
+
+export const Label2 = styled.Text`
+  margin-bottom: 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+
+  ${({ theme }) => css`
+    font-family: ${theme.FONTS.BOLD_TEXT};
+    color: ${theme.COLORS.DESCRIPTION};
   `}
 `;
 
