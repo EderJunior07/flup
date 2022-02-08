@@ -1,40 +1,77 @@
 import { TouchableOpacity } from 'react-native';
 import styled, { css } from 'styled-components/native';
 
-export const Container = styled.KeyboardAvoidingView`
+export const Container = styled.ScrollView`
   flex: 1;
+  height: 100%;
+  padding-bottom: 100px;
   background-color: ${({ theme }) => theme.COLORS.BACKGROUND};
-  padding: 24px 0;
+`;
+
+export const Header = styled.View`
+  width: 100%;
+  height: 62px;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  border-width: 1px;
+  border-color: ${({ theme }) => theme.COLORS.BORDER_COLOR};
+`;
+
+export const HeaderBoxLeft = styled.View`
+  align-items: center;
+  justify-content: center;
+  border-end-width: 1px;
+  padding: 8px 16px;
+  border-color: ${({ theme }) => theme.COLORS.BORDER_COLOR};
+`;
+
+export const HeaderBoxRight = styled.View`
+  align-items: center;
+  justify-content: center;
+  border-start-width: 1px;
+  padding: 8px 16px;
+  border-color: ${({ theme }) => theme.COLORS.BORDER_COLOR};
+`;
+
+export const HeaderTitle = styled.Text`
+  justify-content: center;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-family: ${({ theme }) => theme.FONTS.BOLD_TEXT};
+  color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
 `;
 
 export const MessageContainer = styled.View`
   width: 100%;
   min-height: 132px;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-width: 1px;
+  border-color: ${({ theme }) => theme.COLORS.BORDER_COLOR};
+  padding-bottom: 24px;
 `;
 
 export const Title = styled.Text`
+padding: 0 16px;
     margin-top: 24px;
   font-size: 18px;
   text-transform: uppercase;
-  text-align: center;
   color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON}
   font-family: ${({ theme }) => theme.FONTS.BOLD_TEXT};
 `;
 
 export const Description = styled.Text`
     margin-top: 8px;
-    padding: 0 48px;
+    padding: 0 16px;
     font-size: 14px;
-    text-align: center;
     color: ${({ theme }) => theme.COLORS.DESCRIPTION}
     font-family: ${({ theme }) => theme.FONTS.TEXT};
 `;
 
 export const Form = styled.View`
   width: 100%;
-  margin-top: 32px;
+  margin-top: 8px;
   padding: 16px;
 `;
 
@@ -77,8 +114,6 @@ export const ToggleBox = styled.View`
   width: 100%;
   padding: 16px 0;
 `;
-
-
 
 export const ButtonLabel = styled.Text`
   font-size: 12px;

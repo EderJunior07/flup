@@ -17,6 +17,7 @@ import SetCityModal from '../../components/Modals/SetCityModal';
 import { AppStore } from '../../store/types';
 import { SetSpots } from '../../store/ducks/spots/actions';
 import theme from '../../theme';
+import SetModalNewSpot from '../../components/Modals/SetNewSpot';
 
 const customMap = [
   {
@@ -205,6 +206,7 @@ const Home = () => {
   const [modalUserCityVisible, setModalUserCityVisible] = useState<boolean>(
     formatted_city ? false : true
   );
+  const [openModalNewSpot, setOpenModalNewSpot] = useState<boolean>(false);
 
   const [selectedSpot, setSelectedSpot] = useState<string>('');
   const { COLORS } = useTheme();
@@ -327,6 +329,17 @@ const Home = () => {
           <SetCityModal setModalUserCityVisible={setModalUserCityVisible} />
         </Modal>
 
+        <Modal
+          animationType="fade"
+          transparent={false}
+          visible={true}
+          onRequestClose={() => {
+            setOpenModalNewSpot(!openModalNewSpot);
+          }}
+        >
+          <SetModalNewSpot setOpenModalNewSpot={setOpenModalNewSpot}/>
+        </Modal>
+
         <TouchableOpacity style={styles.buttonActionsBox}>
           <MaterialIcons name="camera-alt" size={24} color="#FFF" />
         </TouchableOpacity>
@@ -348,7 +361,6 @@ const Home = () => {
         >
           <Content city={cityUser} loading={loadingCity} />
         </Modalize>
-          
       </Container>
     </>
   );
