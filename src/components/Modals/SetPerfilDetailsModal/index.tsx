@@ -1,6 +1,6 @@
 import Photo from '../../../components/Photo';
 import { AppStore } from '../../../store/types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import firestore from '@react-native-firebase/firestore';
@@ -32,17 +32,9 @@ import {
 import { GetCurrentUser } from '../../../services/firestore/userMethods';
 import { SetUser } from '../../../store/ducks/user/actions';
 import { useTheme } from 'styled-components/native';
+import { IBaseType } from '@src/services/firestore/types/user';
 
-const bases = [
-  {
-    id: 1,
-    providerId: 'Goofy',
-  },
-  {
-    id: 2,
-    providerId: 'Regular',
-  },
-];
+const bases = ['Goofy', 'Regular'];
 
 interface ISetPerfilDetailsModal {
   setEmptyFiedsModal: any;
@@ -54,27 +46,43 @@ const SetPerfilDetailsModal = ({
   type,
 }: ISetPerfilDetailsModal) => {
   const {
-    user: { id, name, photoUrl, formatted_city, description, base_at_skate_type  },
+    user: {
+      id,
+      name,
+      photoUrl,
+      formatted_city,
+      description,
+      base_at_skate_type,
+    },
   } = useSelector((state: AppStore) => state);
 
   const { COLORS } = useTheme();
   const dispatch = useDispatch();
 
-  const [biography, setBiography] = useState( type === 'complete' ? '' : description);
+  const [biography, setBiography] = useState(
+    type === 'edit' ? description : ''
+  );
 
-  const [actives, setActives] = useState<any>( type === 'complete' ? [] : base_at_skate_type);
+  const [actives, setActives] = useState<IBaseType[]>(
+    type === 'edit' ? base_at_skate_type : []
+  );
 
   const [loading, setLoading] = useState(false);
 
   const handleActives = (item: any) => {
-    const isSelected = actives.find((a: any) => a.id == item.id);
+    const isSelected = actives.find((a: any) => a == item);
 
     if (isSelected) {
-      setActives(actives.filter((a: any) => a.id != item.id));
+      setActives(actives.filter((a: any) => a != item));
+      console.log(actives);
     } else {
       setActives([...actives, item]);
     }
   };
+
+  useEffect(() => {
+    console.log('The real: ', actives);
+  },[actives])
 
   const handleSaveDetails = async () => {
     if (biography.length < 1) {
@@ -88,6 +96,7 @@ const SetPerfilDetailsModal = ({
     }
 
     setLoading(true);
+    console.log(actives)
     await firestore()
       .collection('USER')
       .doc(id)
@@ -124,7 +133,9 @@ const SetPerfilDetailsModal = ({
             {type === 'complete' ? 'Complete seu perfil' : 'Editar Perfil'}
           </Title>
           <Description>
-            {type === 'complete' ? 'Falta só mais um pouquinho para você dar seus rolês por aí, complete seu perfil.' : 'Vai dar aquela ajeitada, né?' }
+            {type === 'complete'
+              ? 'Falta só mais um pouquinho para você dar seus rolês por aí, complete seu perfil.'
+              : 'Vai dar aquela ajeitada, né?'}
           </Description>
         </MessageContainer>
 
@@ -150,7 +161,7 @@ const SetPerfilDetailsModal = ({
             </InputGroup>
 
             <InputGroup>
-              <Label>Biografia</Label>
+              <Label>Base</Label>
 
               <ToggleBox>
                 {bases.map((i, index) => {
@@ -184,7 +195,7 @@ const SetPerfilDetailsModal = ({
                           },
                         ]}
                       >
-                        {i.providerId}
+                        {i}
                       </Text>
                     </TouchableOpacity>
                   );

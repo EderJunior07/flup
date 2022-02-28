@@ -184,7 +184,7 @@ const Perfil = () => {
               size={4}
               style={{ marginRight: 8 }}
             />
-            <LabelWhite>{'dd'}</LabelWhite>
+            <LabelWhite>{base_at_skate_type[0]}</LabelWhite>
           </LabelContainer>
         </AllBlackContainer>
 
