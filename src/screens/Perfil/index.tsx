@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, TouchableOpacity } from 'react-native';
+import { Modal, ScrollView, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
@@ -111,7 +111,7 @@ const Perfil = () => {
     setEmptyFiedsModal(true);
     setType('edit');
   };
-  console.log(base_at_skate_type)
+  console.log(base_at_skate_type.length);
 
   return (
     <>
@@ -168,24 +168,30 @@ const Perfil = () => {
         </PerfilInfoBox>
 
         <AllBlackContainer>
-          <LabelContainer>
-            <MaterialIcons
-              name="location-on"
-              size={24}
-              color={COLORS.SECONDARY_BUTTON}
-            />
-            <LabelWhite> {formatted_city && formatted_city}</LabelWhite>
-          </LabelContainer>
-          <LabelContainer>
-            <Label>Base</Label>
-            <MaterialIcons
-              name="circle"
-              color={'#FFF'}
-              size={4}
-              style={{ marginRight: 8 }}
-            />
-            <LabelWhite>{base_at_skate_type[0]}</LabelWhite>
-          </LabelContainer>
+          <ScrollView horizontal>
+            <LabelContainer>
+              <MaterialIcons
+                name="location-on"
+                size={24}
+                color={COLORS.SECONDARY_BUTTON}
+              />
+              <LabelWhite> {formatted_city && formatted_city}</LabelWhite>
+            </LabelContainer>
+            <LabelContainer>
+              <Label>Base</Label>
+              <MaterialIcons
+                name="circle"
+                color={'#FFF'}
+                size={4}
+                style={{ marginRight: 8 }}
+              />
+              <LabelWhite>
+                {base_at_skate_type.length > 1
+                  ? `${(base_at_skate_type[0] + ' & ' + base_at_skate_type[1])}`
+                  : base_at_skate_type[0]}
+              </LabelWhite>
+            </LabelContainer>
+          </ScrollView>
         </AllBlackContainer>
 
         <UserDescription>{description && description}</UserDescription>

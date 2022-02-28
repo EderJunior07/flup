@@ -91,25 +91,38 @@ const ModalSpotDetails = ({ id, ...rest }: Props) => {
             </TouchableOpacity>
           </HeaderBoxRight>
         </Header>
-        <ScrollView
-          style={{ flex: 1, paddingLeft: 1 }}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        >
-          {spot &&
-            spot.spotPhotos.map((data: string, index: number) => (
-              <ImageContainer key={index}>
-                <Image
-                  style={{ flex: 1 }}
-                  source={{
-                    uri: data
-                      ? data
-                      : 'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg',
-                  }}
-                />
-              </ImageContainer>
-            ))}
-        </ScrollView>
+        {spot?.spotPhotos.length > 1 ? (
+          <ScrollView
+            style={{ flex: 1, paddingLeft: 1 }}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          >
+            {spot &&
+              spot?.spotPhotos?.map((data: string, index: number) => (
+                <ImageContainer key={index}>
+                  <Image
+                    style={{ flex: 1 }}
+                    source={{
+                      uri: data
+                        ? data
+                        : 'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg',
+                    }}
+                  />
+                </ImageContainer>
+              ))}
+          </ScrollView>
+        ) : (
+          <ImageContainer style={{ flex: 1, width: '100%' }}>
+            <Image
+              style={{ flex: 1 }}
+              source={{
+                uri: spot?.spotPhotos[0]
+                  ? spot?.spotPhotos[0]
+                  : 'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg',
+              }}
+            />
+          </ImageContainer>
+        )}
         <NameContainer>
           <Name>{spot?.name}</Name>
         </NameContainer>
@@ -117,7 +130,6 @@ const ModalSpotDetails = ({ id, ...rest }: Props) => {
           <Description>{spot?.description}</Description>
         </HeaderContainer>
 
-      
         <TitleBox>
           <MaterialIcons name="supervised-user-circle" size={28} />
           <Title>Agora na pista</Title>

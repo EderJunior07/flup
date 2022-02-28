@@ -30,6 +30,7 @@ import {
   ActivityIndicator,
   Alert,
   Image,
+  KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -50,8 +51,8 @@ const SetModalNewSpot = ({ setOpenModalNewSpot }: ISetModalNewSpot) => {
   const [spotBanner, setSpotBanner] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [latitude, setLatitude] = useState<any>(0);
-  const [longitude, setLongitude] = useState<any>(0);
+  const [latitude, setLatitude] = useState<any>();
+  const [longitude, setLongitude] = useState<any>();
 
   const [loading, setLoading] = useState(false);
 
@@ -92,7 +93,7 @@ const SetModalNewSpot = ({ setOpenModalNewSpot }: ISetModalNewSpot) => {
 
     setLoading(true);
 
-    const reference = storage().ref(`/users_photos/${id}.png`);
+    const reference = storage().ref(`/new_spots_photo/${id}.png`);
     await reference.putFile(spotBanner);
     const photo_url = await reference.getDownloadURL();
 
@@ -106,6 +107,7 @@ const SetModalNewSpot = ({ setOpenModalNewSpot }: ISetModalNewSpot) => {
           Number(latitude),
           Number(longitude)
         ),
+        formatted_city: '',
         status: 2,
       })
       .then(() => {
@@ -114,6 +116,11 @@ const SetModalNewSpot = ({ setOpenModalNewSpot }: ISetModalNewSpot) => {
           'Enviado com Sucesso',
           'Nós agradecemos por colaborar com a comunidade Flup! Vamos analisar seu envio e logo logo retornaremos uma resposta.'
         );
+        setName('');
+        setDescription('');
+        setLatitude('');
+        setLongitude('');
+        setSpotBanner('');
         setLoading(false);
       })
       .catch((e) => {
@@ -139,7 +146,7 @@ const SetModalNewSpot = ({ setOpenModalNewSpot }: ISetModalNewSpot) => {
           </TouchableOpacity>
         </HeaderBoxLeft>
       </Header>
-      {/* <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding"> */}
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
@@ -176,7 +183,7 @@ const SetModalNewSpot = ({ setOpenModalNewSpot }: ISetModalNewSpot) => {
               onChangeText={setName}
               value={name}
               maxLength={40}
-              placeholder="Qual o nome da pista?"
+              placeholder="Qual o nome do pico?"
               selectionColor={COLORS.PRIMARY_900}
               style={{ height: 56 }}
             />
@@ -186,13 +193,13 @@ const SetModalNewSpot = ({ setOpenModalNewSpot }: ISetModalNewSpot) => {
             <InputGroupHeader>
               <Label>Breve Descrição</Label>
               <MaxCharacters>
-                {description.length} de 60 caracteres
+                {description.length} de 120 caracteres
               </MaxCharacters>
             </InputGroupHeader>
             <Input
               onChangeText={setDescription}
               value={description}
-              maxLength={60}
+              maxLength={120}
               placeholder={'Descreva brevemente sobre o pico'}
               style={{ height: 56 }}
             />
@@ -207,7 +214,7 @@ const SetModalNewSpot = ({ setOpenModalNewSpot }: ISetModalNewSpot) => {
             <Input
               onChangeText={setLatitude}
               value={latitude}
-              keyboardType="numeric"
+              keyboardType="number-pad"
               placeholder={'Latitude'}
               placeholderTextColor={'#dadada'}
               style={{ height: 56 }}
@@ -224,7 +231,7 @@ const SetModalNewSpot = ({ setOpenModalNewSpot }: ISetModalNewSpot) => {
           </InputGroup>
         </Form>
       </ScrollView>
-      {/* </KeyboardAvoidingView> */}
+      </KeyboardAvoidingView>
       <TouchableOpacity
         onPress={handleSaveDetails}
         style={[

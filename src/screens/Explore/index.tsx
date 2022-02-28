@@ -122,7 +122,7 @@ const Explore = () => {
               <Image
                 style={{ flex: 1, width: '100%', resizeMode: 'cover' }}
                 source={{
-                  uri: 'https://images.pexels.com/photos/6828662/pexels-photo-6828662.png?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+                  uri: 'http://belote.eng.br/blog/wp-content/uploads/2014/10/geral-pista.jpg',
                 }}
               />
               <HeadlineTitleBox>

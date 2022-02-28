@@ -137,7 +137,7 @@ export const AllBlackContainer = styled.View`
   flex-direction: row;
   align-items: center;
   min-width: 112px;
-  padding: 0 16px;
+  padding: 0 8px;
   height: 62px;
   background-color: ${({ theme }) => theme.COLORS.PRIMARY_BUTTON};
 `;
