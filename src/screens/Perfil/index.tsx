@@ -43,7 +43,14 @@ import SetPerfilDetailsModal from '../../components/Modals/SetPerfilDetailsModal
 
 const Perfil = () => {
   const {
-    user: { id, name, photoUrl, formatted_city, description, base_at_skate_type },
+    user: {
+      id,
+      name,
+      photoUrl,
+      formatted_city,
+      description,
+      base_at_skate_type,
+    },
   } = useSelector((state: AppStore) => state);
 
   const { COLORS } = useTheme();
@@ -56,6 +63,7 @@ const Perfil = () => {
   const [emptyFiedsModal, setEmptyFiedsModal] = useState(
     !description || !base_at_skate_type ? true : false
   );
+  const [type, setType] = useState<'edit' | 'complete'>('complete');
 
   async function handleImagePicker() {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -98,6 +106,12 @@ const Perfil = () => {
     console.log('REDUX USER UPDATED :', reduxUser);
     setLoading(false);
   };
+
+  const handleEditPerfil = () => {
+    setEmptyFiedsModal(true);
+    setType('edit');
+  };
+  console.log(base_at_skate_type)
 
   return (
     <>
@@ -143,11 +157,11 @@ const Perfil = () => {
               </ColumnBoxRight>
             </FollowersBox>
             <ButtonsBox>
-              <DynamicButton>
+              <DynamicButton onPress={() => handleEditPerfil()}>
                 <DynamicButtonLabel>Editar Perfil</DynamicButtonLabel>
               </DynamicButton>
               <InstagramButotn>
-                <Ionicons name={'md-logo-instagram'} size={24} />
+                <Ionicons name={'settings-outline'} size={24} />
               </InstagramButotn>
             </ButtonsBox>
           </InfoBox>
@@ -170,7 +184,7 @@ const Perfil = () => {
               size={4}
               style={{ marginRight: 8 }}
             />
-            <LabelWhite>GOOFY</LabelWhite>
+            <LabelWhite>{'dd'}</LabelWhite>
           </LabelContainer>
         </AllBlackContainer>
 
@@ -186,7 +200,10 @@ const Perfil = () => {
           setEmptyFiedsModal(!emptyFiedsModal);
         }}
       >
-        <SetPerfilDetailsModal setEmptyFiedsModal={setEmptyFiedsModal} />
+        <SetPerfilDetailsModal
+          type={type}
+          setEmptyFiedsModal={setEmptyFiedsModal}
+        />
       </Modal>
     </>
   );

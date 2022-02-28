@@ -1,6 +1,5 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Explore from '@screens/Explore';
 import TabComponent from '../components/bottomConfig/Tab';
 import HomeStack from './stackHome/home.routes';
 import PerfilStack from './stackPerfil/perfil.routes';
@@ -13,7 +12,6 @@ const BottomNav = () => {
 
 
   return (
-  
       <Tab.Navigator
       screenOptions={
         {

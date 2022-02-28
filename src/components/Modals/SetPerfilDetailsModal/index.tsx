@@ -18,7 +18,9 @@ import {
   Title,
   ToggleBox,
 } from './styles';
+
 import Input from '../../../components/input';
+
 import {
   ActivityIndicator,
   Alert,
@@ -26,9 +28,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
 } from 'react-native';
-import { color } from 'react-native-reanimated';
 import { GetCurrentUser } from '../../../services/firestore/userMethods';
 import { SetUser } from '../../../store/ducks/user/actions';
 import { useTheme } from 'styled-components/native';
@@ -36,7 +36,7 @@ import { useTheme } from 'styled-components/native';
 const bases = [
   {
     id: 1,
-    providerId: 'Groovy',
+    providerId: 'Goofy',
   },
   {
     id: 2,
@@ -46,21 +46,23 @@ const bases = [
 
 interface ISetPerfilDetailsModal {
   setEmptyFiedsModal: any;
+  type: 'edit' | 'complete';
 }
 
 const SetPerfilDetailsModal = ({
   setEmptyFiedsModal,
+  type,
 }: ISetPerfilDetailsModal) => {
   const {
-    user: { id, name, photoUrl, formatted_city, description },
+    user: { id, name, photoUrl, formatted_city, description, base_at_skate_type  },
   } = useSelector((state: AppStore) => state);
 
   const { COLORS } = useTheme();
   const dispatch = useDispatch();
 
-  const [biography, setBiography] = useState('');
+  const [biography, setBiography] = useState( type === 'complete' ? '' : description);
 
-  const [actives, setActives] = useState<any>([]);
+  const [actives, setActives] = useState<any>( type === 'complete' ? [] : base_at_skate_type);
 
   const [loading, setLoading] = useState(false);
 
@@ -118,10 +120,11 @@ const SetPerfilDetailsModal = ({
                 : `https://ui-avatars.com/api/?size=128&length=1&background=FF2424&color=FFF&name=${name}`
             }
           />
-          <Title>Complete seu perfil</Title>
+          <Title>
+            {type === 'complete' ? 'Complete seu perfil' : 'Editar Perfil'}
+          </Title>
           <Description>
-            Falta só mais um pouquinho para você dar seus rolês por aí, complete
-            seu perfil.
+            {type === 'complete' ? 'Falta só mais um pouquinho para você dar seus rolês por aí, complete seu perfil.' : 'Vai dar aquela ajeitada, né?' }
           </Description>
         </MessageContainer>
 

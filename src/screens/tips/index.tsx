@@ -72,7 +72,6 @@ const Tips = () => {
       return doc.data();
     });
 
-    console.log('AA', response);
     setAllTips(response);
     return response;
   };

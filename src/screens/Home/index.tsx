@@ -227,7 +227,6 @@ const Home = () => {
           };
         }) as ISpotDetailsPage[];
         dispatch(SetSpots(data));
-        console.log(data)
         setSpots(data);
       })
       .catch((e) =>
@@ -286,7 +285,7 @@ const Home = () => {
           showsUserLocation
           showsCompass
           minZoomLevel={12}
-          maxZoomLevel={15}
+          maxZoomLevel={13}
           mapType="standard"
           customMapStyle={customMap}
         >
