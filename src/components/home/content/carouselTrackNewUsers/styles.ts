@@ -9,7 +9,7 @@ export const Container = styled(TouchableOpacity).attrs<TouchableOpacityProps>(
     flex: 1;
     width: 156px;
     height: 156px;
-    border-radius 78px;
+    border-radius: 78px;
     margin-right: 8px;
     overflow: hidden;
     margin-top: 4px

@@ -1,7 +1,6 @@
-import Photo from '../../../components/Photo';
 import { AppStore } from '../../../store/types';
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import firestore from '@react-native-firebase/firestore';
 
@@ -25,7 +24,9 @@ import {
   MessageContainer,
   Title,
 } from './styles';
+
 import Input from '../../../components/input';
+
 import {
   ActivityIndicator,
   Alert,
@@ -35,6 +36,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+
 import { useTheme } from 'styled-components/native';
 
 interface ISetModalNewSpot {
@@ -147,90 +149,90 @@ const SetModalNewSpot = ({ setOpenModalNewSpot }: ISetModalNewSpot) => {
         </HeaderBoxLeft>
       </Header>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 100 }}
-        style={{ flex: 1 }}
-      >
-        <MessageContainer>
-          <TouchableOpacity
-            style={{ width: '100%', height: 432 }}
-            onPress={handleImagePicker}
-          >
-            <Image
-              source={{
-                uri: spotBanner
-                  ? spotBanner
-                  : 'https://www.ochch.org/wp-content/themes/mast/images/empty-photo.jpg',
-              }}
-              style={{ flex: 1, resizeMode: 'cover' }}
-            />
-          </TouchableOpacity>
-          <Title>Achou um pico?</Title>
-          <Description>
-            Capture para que mais pessoas possam visita-lo.
-          </Description>
-        </MessageContainer>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 100 }}
+          style={{ flex: 1 }}
+        >
+          <MessageContainer>
+            <TouchableOpacity
+              style={{ width: '100%', height: 432 }}
+              onPress={handleImagePicker}
+            >
+              <Image
+                source={{
+                  uri: spotBanner
+                    ? spotBanner
+                    : 'https://www.ochch.org/wp-content/themes/mast/images/empty-photo.jpg',
+                }}
+                style={{ flex: 1, resizeMode: 'cover' }}
+              />
+            </TouchableOpacity>
+            <Title>Achou um pico?</Title>
+            <Description>
+              Capture para que mais pessoas possam visita-lo.
+            </Description>
+          </MessageContainer>
 
-        <Form>
-          <InputGroup>
-            <InputGroupHeader>
-              <Label>Nome</Label>
-              <MaxCharacters>{name.length} de 40 caracteres</MaxCharacters>
-            </InputGroupHeader>
+          <Form>
+            <InputGroup>
+              <InputGroupHeader>
+                <Label>Nome</Label>
+                <MaxCharacters>{name.length} de 40 caracteres</MaxCharacters>
+              </InputGroupHeader>
 
-            <Input
-              onChangeText={setName}
-              value={name}
-              maxLength={40}
-              placeholder="Qual o nome do pico?"
-              selectionColor={COLORS.PRIMARY_900}
-              style={{ height: 56 }}
-            />
-          </InputGroup>
+              <Input
+                onChangeText={setName}
+                value={name}
+                maxLength={40}
+                placeholder="Qual o nome do pico?"
+                selectionColor={COLORS.PRIMARY_900}
+                style={{ height: 56 }}
+              />
+            </InputGroup>
 
-          <InputGroup>
-            <InputGroupHeader>
-              <Label>Breve Descrição</Label>
-              <MaxCharacters>
-                {description.length} de 120 caracteres
-              </MaxCharacters>
-            </InputGroupHeader>
-            <Input
-              onChangeText={setDescription}
-              value={description}
-              maxLength={120}
-              placeholder={'Descreva brevemente sobre o pico'}
-              style={{ height: 56 }}
-            />
-          </InputGroup>
+            <InputGroup>
+              <InputGroupHeader>
+                <Label>Breve Descrição</Label>
+                <MaxCharacters>
+                  {description.length} de 120 caracteres
+                </MaxCharacters>
+              </InputGroupHeader>
+              <Input
+                onChangeText={setDescription}
+                value={description}
+                maxLength={120}
+                placeholder={'Descreva brevemente sobre o pico'}
+                style={{ height: 56 }}
+              />
+            </InputGroup>
 
-          <InputGroup>
-            <InputGroupHeader style={{ marginBottom: 16 }}>
-              <Label>Localização exata</Label>
-              <Label>?</Label>
-            </InputGroupHeader>
-            <Label2>Latitude</Label2>
-            <Input
-              onChangeText={setLatitude}
-              value={latitude}
-              keyboardType="number-pad"
-              placeholder={'Latitude'}
-              placeholderTextColor={'#dadada'}
-              style={{ height: 56 }}
-            />
-            <Label2>Longitude</Label2>
-            <Input
-              onChangeText={setLongitude}
-              value={longitude}
-              keyboardType="numeric"
-              placeholder={'Longitude'}
-              placeholderTextColor={'#dadada'}
-              style={{ height: 56 }}
-            />
-          </InputGroup>
-        </Form>
-      </ScrollView>
+            <InputGroup>
+              <InputGroupHeader style={{ marginBottom: 16 }}>
+                <Label>Localização exata</Label>
+                <Label>?</Label>
+              </InputGroupHeader>
+              <Label2>Latitude</Label2>
+              <Input
+                onChangeText={setLatitude}
+                value={latitude}
+                keyboardType="number-pad"
+                placeholder={'Latitude'}
+                placeholderTextColor={'#dadada'}
+                style={{ height: 56 }}
+              />
+              <Label2>Longitude</Label2>
+              <Input
+                onChangeText={setLongitude}
+                value={longitude}
+                keyboardType="numeric"
+                placeholder={'Longitude'}
+                placeholderTextColor={'#dadada'}
+                style={{ height: 56 }}
+              />
+            </InputGroup>
+          </Form>
+        </ScrollView>
       </KeyboardAvoidingView>
       <TouchableOpacity
         onPress={handleSaveDetails}
